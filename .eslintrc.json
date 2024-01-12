@@ -21,7 +21,8 @@
 			"rules": {
 				"react/function-component-definition": "off",
 				"react/no-array-index-key": "off",
-				"react/jsx-props-no-spreading": "off"
+				"react/jsx-props-no-spreading": "off",
+				"react/require-default-props": "off" // Allow non-defined react props as undefined
 			}
 		}
 	]
