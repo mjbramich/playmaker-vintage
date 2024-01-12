@@ -6,8 +6,9 @@
 		// Configuration for TypeScript files
 		{
 			"files": ["**/*.ts", "**/*.tsx"],
-			"plugins": ["@typescript-eslint"],
+			"plugins": ["@typescript-eslint", "tailwindcss"],
 			"extends": [
+				"plugin:tailwindcss/recommended",
 				"airbnb",
 				"airbnb/hooks",
 				"airbnb-typescript",
