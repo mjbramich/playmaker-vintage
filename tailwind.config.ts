@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss';
 import tailwindAnimate from 'tailwindcss-animate';
+// eslint-disable-next-line
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 export default {
 	darkMode: ['class'],
@@ -72,6 +74,9 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			fontFamily: {
+				sans: ['var(--font-sans)', ...fontFamily.sans]
 			}
 		}
 	},
