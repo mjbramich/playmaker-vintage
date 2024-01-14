@@ -27,6 +27,17 @@
 				"react/jsx-no-constructed-context-values": "off",
 				"import/prefer-default-export": "off" // Needed for Next.js route handlers
 			}
+		},
+		// Configuration for testing
+		{
+			"files": ["**/*.test.ts", "**/*.test.tsx"],
+			"plugins": ["jest", "jest-formatting", "testing-library"],
+			"extends": [
+				"plugin:jest/recommended",
+				"plugin:jest-formatting/recommended",
+				"plugin:testing-library/react",
+				"plugin:testing-library/dom"
+			]
 		}
 	]
 }
