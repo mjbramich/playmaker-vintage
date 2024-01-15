@@ -12,6 +12,9 @@
 		"prepare": "husky install",
 		"check-types": "tsc --noEmit --pretty"
 	},
+	"prisma": {
+		"schema": "./src/prisma/schema.prisma"
+	},
 	"dependencies": {
 		"@clerk/nextjs": "^4.29.3",
 		"@hookform/resolvers": "^3.3.4",
