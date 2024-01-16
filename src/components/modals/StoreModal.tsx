@@ -1,8 +1,9 @@
 'use-client';
 
-import * as z from 'zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 import useModalStore from '@/stores/modal';
 import Modal from '@/components/ui/modal';
@@ -23,6 +24,8 @@ const formSchema = z.object({
 const StoreModal = () => {
 	const storeModal = useModalStore();
 
+	const [loading, setLoading] = useState(false);
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -32,7 +35,23 @@ const StoreModal = () => {
 
 	// Handle form submission
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		console.log(values);
+		try {
+			setLoading(true);
+			const response = await fetch('/api/stores', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(values)
+			});
+
+			const data = await response.json();
+			console.log(data);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -52,17 +71,19 @@ const StoreModal = () => {
 								<FormItem>
 									<FormLabel>Name</FormLabel>
 									<FormControl>
-										<Input placeholder='Name' {...field} />
+										<Input disabled={loading} placeholder='Name' {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
 						<div className='flex items-center justify-end space-x-2 pt-6 '>
-							<Button variant='outline' onClick={storeModal.onClose}>
+							<Button disabled={loading} variant='outline' onClick={storeModal.onClose}>
 								Cancel
 							</Button>
-							<Button type='submit'>Continue</Button>
+							<Button disabled={loading} type='submit'>
+								Continue
+							</Button>
 						</div>
 					</form>
 				</Form>
