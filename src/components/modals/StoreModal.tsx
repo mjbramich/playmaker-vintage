@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import toast from 'react-hot-toast';
 
 import useModalStore from '@/stores/modal';
 import Modal from '@/components/ui/modal';
@@ -46,9 +47,9 @@ const StoreModal = () => {
 			});
 
 			const data = await response.json();
-			console.log(data);
+			toast.success(`${data.name} store created.`);
 		} catch (error) {
-			console.log(error);
+			toast.error('Oops, something went wrong!');
 		} finally {
 			setLoading(false);
 		}
