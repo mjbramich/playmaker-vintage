@@ -48,7 +48,7 @@ const StoreModal = () => {
 
 			const data = await response.json();
 
-			// does a complete page refresh to make sure new store is added to database
+			// window.location.assign does a complete page refresh to make sure new store is added to database, whereas redirect in next js router allows for navigation without a complete page refresh.
 			window.location.assign(`/store/${data.id}`);
 		} catch (error) {
 			toast.error('Oops, something went wrong!');
