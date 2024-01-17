@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 
-import { Button } from '@/components/ui/button';
 import useModalStore from '@/stores/modal';
 
 export default function Home() {
@@ -15,9 +14,5 @@ export default function Home() {
 		}
 	}, [isOpen, onOpen]);
 
-	return (
-		<main>
-			<Button variant='outline'>Testing </Button>
-		</main>
-	);
+	return null;
 }
