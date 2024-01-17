@@ -1,6 +1,8 @@
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
+
 import prisma from '@/lib/prismadb';
+import Navbar from '@/components/Navbar';
 
 export default async function DashboardLayout({
 	children,
@@ -26,5 +28,10 @@ export default async function DashboardLayout({
 		redirect('/');
 	}
 	// eslint-disable-next-line
-	return <>{children}</>;
+	return (
+		<>
+			<Navbar />
+			{children}
+		</>
+	);
 }
