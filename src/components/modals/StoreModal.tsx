@@ -47,7 +47,9 @@ const StoreModal = () => {
 			});
 
 			const data = await response.json();
-			toast.success(`${data.name} store created.`);
+
+			// does a complete page refresh to make sure new store is added to database
+			window.location.assign(`/store/${data.id}`);
 		} catch (error) {
 			toast.error('Oops, something went wrong!');
 		} finally {
