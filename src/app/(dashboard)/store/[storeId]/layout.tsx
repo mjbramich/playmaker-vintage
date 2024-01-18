@@ -19,7 +19,7 @@ export default async function DashboardLayout({
 
 	const store = await prisma.store.findUnique({
 		where: {
-			id: params.storeId,
+			id: params.storeId, // params is accessed from the dynamic route segment value in [storeId]
 			userId
 		}
 	});
