@@ -22,6 +22,9 @@ import { Button } from '@/components/ui/button';
 const formSchema = z.object({
 	name: z.string().min(1, { message: 'Name is required' })
 });
+
+type FormData = z.infer<typeof formSchema>;
+
 const StoreModal = () => {
 	const storeModal = useModalStore();
 
@@ -35,7 +38,7 @@ const StoreModal = () => {
 	});
 
 	// Handle form submission
-	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+	const onSubmit = async (data: FormData) => {
 		try {
 			setLoading(true);
 			const response = await fetch('/api/stores', {
@@ -43,13 +46,13 @@ const StoreModal = () => {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(values)
+				body: JSON.stringify(data)
 			});
 
-			const data = await response.json();
+			const responseData = await response.json();
 
 			// window.location.assign does a complete page refresh to make sure new store is added to database, whereas redirect in next js router allows for navigation without a complete page refresh.
-			window.location.assign(`/store/${data.id}`);
+			window.location.assign(`/store/${responseData.id}`);
 		} catch (error) {
 			toast.error('Oops, something went wrong!');
 		} finally {
