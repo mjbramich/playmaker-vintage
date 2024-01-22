@@ -1,10 +1,11 @@
 import { auth } from '@clerk/nextjs';
+
 import { redirect } from 'next/navigation';
 
 import prisma from '@/lib/prismadb';
 import SettingsForm from '@/components/SettingsForm';
-import Heading from '@/components/ui/heading';
-import { Separator } from '@/components/ui/separator';
+
+import SettingsHeading from '@/components/SettingsHeading';
 
 interface SettingsPageProps {
 	params: {
@@ -19,7 +20,7 @@ const SettingsPage = async ({ params }: SettingsPageProps) => {
 		redirect('/sign-in');
 	}
 
-	const store = await prisma.store.findUnique({
+	const store = await prisma.store.findFirst({
 		where: {
 			id: params.storeId, // params is accessed from the dynamic route segment value in [storeId]
 			userId
@@ -27,16 +28,14 @@ const SettingsPage = async ({ params }: SettingsPageProps) => {
 	});
 
 	if (!store) {
+		// notFound();
 		redirect('/');
 	}
 
 	return (
-		<div className='flex-col'>
-			<div className='flex-1 space-y-4 p-8 pt-6'>
-				<Heading title='Settings' description='Manage your store settings' />
-				<Separator />
-				<SettingsForm initialData={store} />
-			</div>
+		<div className='space-y-8'>
+			<SettingsHeading initialData={store} />
+			<SettingsForm initialData={store} />
 		</div>
 	);
 };
