@@ -3,9 +3,8 @@ import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 import prisma from '@/lib/prismadb';
-import SettingsForm from '@/components/SettingsForm';
-
-import SettingsHeading from '@/components/SettingsHeading';
+import SettingsForm from '@/components/settings/settings-form';
+import SettingsHeading from '@/components/settings/settings-heading';
 
 interface SettingsPageProps {
 	params: {
@@ -33,7 +32,7 @@ const SettingsPage = async ({ params }: SettingsPageProps) => {
 	}
 
 	return (
-		<div className='space-y-8'>
+		<div className='space-y-8 '>
 			<SettingsHeading initialData={store} />
 			<SettingsForm initialData={store} />
 		</div>

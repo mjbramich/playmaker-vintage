@@ -22,12 +22,12 @@ model Store {
 
 model Billboard {
   id        String @id @default(uuid())
-  storedId  String
-  store     Store @relation("StoreToBillboard", fields: [storedId], references: [id])
+  storeId   String
+  store     Store @relation("StoreToBillboard", fields: [storeId], references: [id])
   label     String
   imageUrl  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([storedId]) // manually create Index 
+  @@index([storeId]) // manually create Index 
 }

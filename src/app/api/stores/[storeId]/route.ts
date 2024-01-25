@@ -1,10 +1,11 @@
-// dynamic route segments are automatically passed as the params props.
-
 import prisma from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
+// dynamic route segments are automatically passed as the params props.
 // eg: api/stores/[storeId] => [storeId] = params
+
+// EDIT STORE
 export async function PATCH(req: Request, { params }: { params: { storeId: string } }) {
 	try {
 		const { userId } = auth();
@@ -45,6 +46,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
 	}
 }
 
+// DELETE STORE
 export async function DELETE(_req: Request, { params }: { params: { storeId: string } }) {
 	try {
 		const { userId } = auth();

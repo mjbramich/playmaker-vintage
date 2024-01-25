@@ -54,8 +54,9 @@ const SettingsHeading = ({ initialData }: Props) => {
 			/>
 			<div className='flex items-center justify-between'>
 				<Heading title='Settings' description='Manage your store settings' />
-				<Button disabled={loading} variant='destructive' size='sm' onClick={() => setIsOpen(true)}>
-					<Trash className='h-16 w-4' />
+				<Button disabled={loading} variant='destructive' onClick={() => setIsOpen(true)}>
+					<Trash className='mr-2 h-4 w-4' />
+					Delete Store
 				</Button>
 			</div>
 
