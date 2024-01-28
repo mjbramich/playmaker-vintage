@@ -56,6 +56,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
 // GET ALL BILLBOARDS FOR CURRENT STORE
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
+	console.log('Hello');
+
 	try {
 		if (!params.storeId) {
 			return new NextResponse('Store id is required', { status: 400 });

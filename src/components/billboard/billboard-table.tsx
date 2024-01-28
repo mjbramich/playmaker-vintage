@@ -1,6 +1,8 @@
 import { format } from 'date-fns';
 import { Billboard } from '@prisma/client';
-import { columns, BillboardColumn } from '@/components/billboard/columns';
+
+import { BillboardColumn } from '@/types';
+import { columns } from '@/components/billboard/billboard-columns';
 import { DataTable } from '../ui/data-table';
 
 interface Props {
@@ -13,7 +15,7 @@ const BillboardTable = ({ data }: Props) => {
 		label: item.label,
 		createdAt: format(item.createdAt, 'MMMM do, yyyy')
 	}));
-	return <DataTable columns={columns} data={billboards} />;
+	return <DataTable columns={columns} data={billboards} searchKey='label' />;
 };
 
 export default BillboardTable;

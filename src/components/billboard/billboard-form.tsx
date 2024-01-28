@@ -18,7 +18,7 @@ import {
 	FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import ImageUpload from '../ui/image-upload';
+import ImageUpload from '@/components/ui/image-upload';
 
 interface Props {
 	initialData: Billboard | null; // billboard may not always exist
@@ -74,8 +74,8 @@ const BillboardForm = ({ initialData }: Props) => {
 				});
 			}
 
-			router.refresh();
 			router.push(`/store/${params.storeId}/billboards`);
+			router.refresh();
 			toast.success(toastMessage);
 		} catch (error) {
 			toast.error('Something went wrong');
