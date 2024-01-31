@@ -18,12 +18,17 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
 		{
 			href: `/store/${params.storeId}/billboards`,
 			name: 'Billboards',
-			active: pathname === `/store/${params.storeId}/billboards`
+			active: pathname.includes('billboards')
+		},
+		{
+			href: `/store/${params.storeId}/categories`,
+			name: 'Categories',
+			active: pathname.includes('categories')
 		},
 		{
 			href: `/store/${params.storeId}/settings`,
 			name: 'Settings',
-			active: pathname === `/store/${params.storeId}/settings`
+			active: pathname.includes('settings')
 		}
 	];
 	return (
@@ -34,7 +39,7 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
 					href={route.href}
 					className={cn(
 						'text-sm font-medium transition-colors hover:text-primary',
-						route.active ? 'text-black dark:text-white' : 'text-muted'
+						route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
 					)}
 				>
 					{route.name}
