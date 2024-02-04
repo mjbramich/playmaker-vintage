@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { CategoryColumn } from '@/types';
-// import RowAction from '@/components/billboard/row-action';
+import RowAction from '@/components/category/row-action';
 
 // Define the columns for the billboard table
 export const columns: ColumnDef<CategoryColumn>[] = [
@@ -19,12 +19,11 @@ export const columns: ColumnDef<CategoryColumn>[] = [
 	{
 		accessorKey: 'createdAt',
 		header: 'Date'
+	},
+	{
+		header: 'Actions',
+		id: 'actions',
+		// row.original is the original row object provided to the table
+		cell: ({ row }) => <RowAction data={row.original} />
 	}
-
-	// {
-	// 	header: 'Actions',
-	// 	id: 'actions',
-	// 	// row.original is the original row object provided to the table
-	// 	cell: ({ row }) => <RowAction data={row.original} />
-	// }
 ];
