@@ -62,7 +62,7 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 			setLoading(true);
 
 			if (initialData) {
-				// update Billboard
+				// update Category
 				await fetch(`/api/stores/${params.storeId}/categories/${params.categoryId}`, {
 					method: 'PATCH',
 					headers: {
@@ -71,7 +71,7 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 					body: JSON.stringify(data)
 				});
 			} else {
-				// Create new Billboard
+				// Create new Category
 				await fetch(`/api/stores/${params.storeId}/categories`, {
 					method: 'POST',
 					headers: {

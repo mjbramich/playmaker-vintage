@@ -1,3 +1,4 @@
+import CategoryHeading from '@/components/category/category-heading';
 import CategoryForm from '@/components/category/category-form';
 import prisma from '@/lib/prismadb';
 
@@ -17,6 +18,7 @@ const BillboardPage = async ({ params }: { params: { categoryId: string; storeId
 	return (
 		<div className='space-y-8'>
 			{/* <BillboardHeading initialData={billboards} /> */}
+			<CategoryHeading initialData={category} />
 			<CategoryForm initialData={category} billboards={billboards} />
 		</div>
 	);
