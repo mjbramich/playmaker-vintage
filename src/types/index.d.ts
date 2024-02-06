@@ -10,3 +10,12 @@ export type CategoryColumn = {
 	billboardLabel: string;
 	createdAt: string;
 };
+
+export type ProductColumn = {
+	id: string;
+	name: string;
+	size: string;
+	price: number;
+	category: string;
+	createdAt: string;
+};

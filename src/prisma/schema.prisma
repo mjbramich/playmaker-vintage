@@ -64,7 +64,7 @@ model Product {
   featured  Boolean @default(false)
   archived  Boolean @default(false)
   // Need more than one image per product sometimes
-  image     Image[]
+  images     Image[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
