@@ -26,6 +26,11 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
 			active: pathname.includes('categories')
 		},
 		{
+			href: `/store/${params.storeId}/products`,
+			name: 'Products',
+			active: pathname.includes('products')
+		},
+		{
 			href: `/store/${params.storeId}/settings`,
 			name: 'Settings',
 			active: pathname.includes('settings')
