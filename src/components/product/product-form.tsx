@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Category, Image, Product } from '@prisma/client';
+import { Category, Prisma } from '@prisma/client';
 import toast from 'react-hot-toast';
 
 import { Button } from '@/components/ui/button';
@@ -27,21 +27,28 @@ import {
 	SelectValue
 } from '@/components/ui/select';
 
+// Create Product type with images populated
+type ProductWithImages = Prisma.ProductGetPayload<{
+	include: {
+		images: true;
+	};
+}>;
+
+interface FormattedProduct extends Omit<ProductWithImages, 'price'> {
+	price: string;
+}
+
 interface Props {
-	initialData:
-		| (Product & {
-				images: Image[];
-		  })
-		| null;
+	initialData: FormattedProduct | null;
 	categories: Category[];
 }
 
 const formSchema = z.object({
 	name: z.string().min(1),
 	size: z.string().min(1),
-	price: z.number().min(1), // coerce to number ?
-	category: z.string().min(1),
-	images: z.object({ url: z.string() }).array()
+	price: z.coerce.number().min(1), // coerce to number ?
+	categoryId: z.string().min(1),
+	images: z.object({ url: z.string() }).array().nonempty()
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -59,14 +66,14 @@ const ProductForm = ({ initialData, categories }: Props) => {
 		defaultValues: initialData
 			? {
 					...initialData,
-					// Convert Decimal to Number
-					price: Number(initialData?.price)
+					// Convert price from String to Number for form
+					price: parseFloat(String(initialData.price))
 				}
 			: {
 					name: '',
 					size: '',
 					price: 0,
-					category: '',
+					categoryId: '',
 					images: []
 				}
 	});
@@ -74,35 +81,36 @@ const ProductForm = ({ initialData, categories }: Props) => {
 	const toastMessage = initialData ? 'Product updated' : 'Product created';
 	const action = initialData ? 'Save changes' : 'Create';
 
-	const onSubmit = async (data: FormData) => {
+	const onSubmit = async (formData: FormData) => {
 		try {
 			setLoading(true);
 
-			if (initialData) {
-				// update Product
-				await fetch(`/api/stores/${params.storeId}/products/${params.productId}`, {
-					method: 'PATCH',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				});
-			} else {
-				// Create new Product
-				await fetch(`/api/stores/${params.storeId}/products`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				});
+			const url = initialData
+				? `/api/stores/${params.storeId}/products/${params.productId}` // Update Product
+				: `/api/stores/${params.storeId}/products`; // Create Product
+
+			const method = initialData ? 'PATCH' : 'POST';
+
+			const response = await fetch(url, {
+				method,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			});
+
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
 			}
 
-			router.push(`/store/${params.storeId}/billboards`);
+			router.push(`/store/${params.storeId}/products`);
 			router.refresh();
 			toast.success(toastMessage);
 		} catch (error) {
-			toast.error('Something went wrong');
+			if (error instanceof Error) {
+				toast.error(error.message);
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -193,7 +201,7 @@ const ProductForm = ({ initialData, categories }: Props) => {
 
 					<FormField
 						control={form.control}
-						name='category'
+						name='categoryId'
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Categories</FormLabel>
