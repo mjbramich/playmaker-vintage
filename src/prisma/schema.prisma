@@ -60,7 +60,7 @@ model Product {
   name      String
   price     Decimal
   size      String  // filters
-  team      String // filters
+  // team      String // filters 
   featured  Boolean @default(false)
   archived  Boolean @default(false)
   // Need more than one image per product sometimes
