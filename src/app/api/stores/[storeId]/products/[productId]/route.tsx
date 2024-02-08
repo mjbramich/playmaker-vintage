@@ -130,10 +130,12 @@ export async function DELETE(
 		const product = await prisma.product.delete({
 			where: {
 				id: params.productId
-			},
-			include: {
-				images: true
 			}
+
+			// NOT NEEDED Only Populates query with images
+			// include: {
+			// 	images: true
+			// } /
 		});
 
 		console.log(product);
