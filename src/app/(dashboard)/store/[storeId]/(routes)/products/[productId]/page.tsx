@@ -19,10 +19,28 @@ const ProductPage = async ({ params }: { params: { storeId: string; productId: s
 		}
 	});
 
+	// type ProductWithImages = Prisma.ProductGetPayload<{
+	// 	include: {
+	// 		images: true;
+	// 	};
+	// }>;
+
+	// interface FormattedProduct extends Omit<ProductWithImages, 'price'> {
+	// 	price: string;
+	// }
+
+	// Format data before passing to client components, since only plain objects can be passed to client components from server. Example: Decimal type.
+	const formattedProduct = product
+		? {
+				...product,
+				price: String(product.price) // Need to convert Decimal to plain object eg. String | Number
+			}
+		: null;
+
 	return (
 		<div className='space-y-8'>
-			<ProductHeading initialData={product} />
-			<ProductForm initialData={product} categories={categories} />
+			<ProductHeading initialData={formattedProduct} />
+			<ProductForm initialData={formattedProduct} categories={categories} />
 		</div>
 	);
 };

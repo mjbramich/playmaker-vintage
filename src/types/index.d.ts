@@ -15,7 +15,7 @@ export type ProductColumn = {
 	id: string;
 	name: string;
 	size: string;
-	price: number;
+	price: string;
 	category: string;
 	createdAt: string;
 };

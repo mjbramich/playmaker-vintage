@@ -1,15 +1,15 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { Product } from '@prisma/client';
-
-import Heading from '@/components/ui/heading';
 import { Plus } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
+
+import { ProductColumn } from '@/types';
+import Heading from '@/components/ui/heading';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 interface Props {
-	products: Product[];
+	products: ProductColumn[];
 }
 
 const Products = ({ products }: Props) => {

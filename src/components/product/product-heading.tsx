@@ -1,5 +1,6 @@
 'use client';
 
+import { Prisma } from '@prisma/client';
 import { useState } from 'react';
 import { Trash } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
@@ -9,10 +10,20 @@ import AlertModal from '@/components/modals/AlertModal';
 import Heading from '@/components/ui/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Product } from '@prisma/client';
+
+// Create Type for populated Images with billboard
+type ProductWithImages = Prisma.ProductGetPayload<{
+	include: {
+		images: true;
+	};
+}>;
+
+interface FormattedProduct extends Omit<ProductWithImages, 'price'> {
+	price: string;
+}
 
 interface Props {
-	initialData: Product | null;
+	initialData: FormattedProduct | null;
 }
 
 const ProductHeading = ({ initialData }: Props) => {
@@ -28,15 +39,22 @@ const ProductHeading = ({ initialData }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			await fetch(`/api/stores/${params.storeId}/products/${params.productId}`, {
+			const response = await fetch(`/api/stores/${params.storeId}/products/${params.productId}`, {
 				method: 'DELETE'
 			});
+
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
+			}
 
 			router.push(`/store/${params.storeId}/products`);
 			router.refresh();
 			toast.success('Successfully deleted product');
 		} catch (error) {
-			toast.error('Remove all products & categories first first');
+			if (error instanceof Error) {
+				toast.error(error.message);
+			}
 		} finally {
 			setLoading(false);
 			setIsOpen(false);
