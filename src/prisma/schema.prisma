@@ -76,7 +76,7 @@ model Product {
 model Image {
   id        String @id @default(uuid())
   url       String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade) // Deleting the product also deletes all related image Records
   productId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
