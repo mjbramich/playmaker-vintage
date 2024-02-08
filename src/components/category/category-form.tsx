@@ -61,31 +61,32 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 		try {
 			setLoading(true);
 
-			if (initialData) {
-				// update Category
-				await fetch(`/api/stores/${params.storeId}/categories/${params.categoryId}`, {
-					method: 'PATCH',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				});
-			} else {
-				// Create new Category
-				await fetch(`/api/stores/${params.storeId}/categories`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				});
+			const url = initialData
+				? `/api/stores/${params.storeId}/categories/${params.categoryId}` // Update a category
+				: `/api/stores/${params.storeId}/categories`; // Create a category
+
+			const method = initialData ? 'PATCH' : 'POST';
+
+			const response = await fetch(url, {
+				method,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
 			}
 
 			router.push(`/store/${params.storeId}/categories`);
 			router.refresh();
 			toast.success(toastMessage);
 		} catch (error) {
-			toast.error('Something went wrong');
+			if (error instanceof Error) {
+				toast.error(error.message);
+			}
 		} finally {
 			setLoading(false);
 		}

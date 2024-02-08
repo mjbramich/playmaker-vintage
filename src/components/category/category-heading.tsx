@@ -28,15 +28,25 @@ const CategoryHeading = ({ initialData }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			await fetch(`/api/stores/${params.storeId}/categories/${params.categoryId}`, {
-				method: 'DELETE'
-			});
+			const response = await fetch(
+				`/api/stores/${params.storeId}/categories/${params.categoryId}`,
+				{
+					method: 'DELETE'
+				}
+			);
+
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
+			}
 
 			router.push(`/store/${params.storeId}/categories`);
 			router.refresh();
 			toast.success('Successfully deleted category');
 		} catch (error) {
-			toast.error('Remove all products first');
+			if (error instanceof Error) {
+				toast.error(error.message);
+			}
 		} finally {
 			setLoading(false);
 			setIsOpen(false);

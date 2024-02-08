@@ -33,14 +33,21 @@ const RowAction = ({ data }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			await fetch(`/api/stores/${params.storeId}/categories/${data.id}`, {
+			const response = await fetch(`/api/stores/${params.storeId}/categories/${data.id}`, {
 				method: 'DELETE'
 			});
+
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
+			}
 
 			toast.success('Successfully deleted category');
 			router.refresh();
 		} catch (error) {
-			toast.error('Remove all products first');
+			if (error instanceof Error) {
+				toast.error(error.message);
+			}
 		} finally {
 			setLoading(false);
 			setIsOpen(false);
