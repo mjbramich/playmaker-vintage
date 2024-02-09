@@ -68,7 +68,7 @@ export async function PATCH(
 		});
 
 		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 400 });
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Update Product
@@ -111,7 +111,7 @@ export async function DELETE(
 		}
 
 		if (!params.productId) {
-			return NextResponse.json({ error: 'Product not dound' }, { status: 400 });
+			return NextResponse.json({ error: 'Product not found' }, { status: 400 });
 		}
 
 		// Check to make sure user has access to store
@@ -123,7 +123,7 @@ export async function DELETE(
 		});
 
 		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 400 });
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Delete Category
@@ -137,7 +137,6 @@ export async function DELETE(
 			// 	images: true
 			// } /
 		});
-
 		console.log(product);
 
 		return NextResponse.json(product);
