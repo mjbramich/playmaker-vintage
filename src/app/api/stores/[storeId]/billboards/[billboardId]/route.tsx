@@ -9,7 +9,7 @@ import { NextResponse } from 'next/server';
 export async function GET(req: Request, { params }: { params: { billboardId: string } }) {
 	try {
 		if (!params.billboardId) {
-			return new NextResponse('Billboard id is required', { status: 400 });
+			return NextResponse.json({ error: 'Billboard not found' }, { status: 400 });
 		}
 
 		const billboard = await prisma.billboard.findUnique({
@@ -21,7 +21,7 @@ export async function GET(req: Request, { params }: { params: { billboardId: str
 		return NextResponse.json(billboard);
 	} catch (error) {
 		console.log('[BILLBOARD_GET]', error);
-		return new NextResponse('Internal error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
 
@@ -37,21 +37,19 @@ export async function PATCH(
 		const { label, imageUrl } = body;
 
 		if (!userId) {
-			return new NextResponse('Unauthenticated', {
-				status: 401
-			});
+			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
 		}
 
 		if (!label) {
-			return new NextResponse('Label is required', { status: 400 });
+			return NextResponse.json({ error: 'Label is required' }, { status: 400 });
 		}
 
 		if (!imageUrl) {
-			return new NextResponse('Image is required', { status: 400 });
+			return NextResponse.json({ error: 'Image is required' }, { status: 400 });
 		}
 
 		if (!params.billboardId) {
-			return new NextResponse('Billboard id is required', { status: 400 });
+			return NextResponse.json({ error: 'Billboard not found' }, { status: 400 });
 		}
 
 		// Check to make sure user has access to store
@@ -63,7 +61,7 @@ export async function PATCH(
 		});
 
 		if (!storeByUserId) {
-			return new NextResponse('Unauthorized', { status: 405 });
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Update Billboard
@@ -80,7 +78,7 @@ export async function PATCH(
 		return NextResponse.json(billboard);
 	} catch (error) {
 		console.log('[BILLBOARD_PATCH]', error);
-		return new NextResponse('Internal Server Error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
 
@@ -93,13 +91,11 @@ export async function DELETE(
 		const { userId } = auth();
 
 		if (!userId) {
-			return new NextResponse('Unauthenticated', {
-				status: 401
-			});
+			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
 		}
 
 		if (!params.billboardId) {
-			return new NextResponse('Billboard id is required', { status: 400 });
+			return NextResponse.json({ error: 'Billboard not found' }, { status: 400 });
 		}
 
 		// Check to make sure user has access to store
@@ -111,11 +107,11 @@ export async function DELETE(
 		});
 
 		if (!storeByUserId) {
-			return new NextResponse('Unauthorized', { status: 405 });
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Delete Billboard
-		const billboard = await prisma.billboard.deleteMany({
+		const billboard = await prisma.billboard.delete({
 			where: {
 				id: params.billboardId
 			}
@@ -124,6 +120,6 @@ export async function DELETE(
 		return NextResponse.json(billboard);
 	} catch (error) {
 		console.log('[BILLBOARD_DELETE]', error);
-		return new NextResponse('Internal Server Error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }

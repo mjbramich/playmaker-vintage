@@ -12,19 +12,19 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 		const { label, imageUrl } = body;
 
 		if (!userId) {
-			return new NextResponse('Unauthenticated', { status: 401 });
+			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
 		}
 
 		if (!label) {
-			return new NextResponse('Label is required', { status: 400 });
+			return NextResponse.json({ error: 'Label is required' }, { status: 400 });
 		}
 
 		if (!imageUrl) {
-			return new NextResponse('Image is required', { status: 400 });
+			return NextResponse.json({ error: 'Image is required' }, { status: 400 });
 		}
 
 		if (!params.storeId) {
-			return new NextResponse('Stored id is required', { status: 400 });
+			return NextResponse.json({ error: 'Store not found' }, { status: 400 });
 		}
 
 		// Check to make sure user has access to store
@@ -36,7 +36,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 		});
 
 		if (!storeByUserId) {
-			return new NextResponse('Unauthorized', { status: 405 });
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		const billboard = await prisma.billboard.create({
@@ -49,8 +49,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
 		return NextResponse.json(billboard);
 	} catch (error) {
-		console.log('[Billboards_POST]', error);
-		return new NextResponse('Internal error', { status: 500 });
+		console.log('[BILLBOARDS_POST]', error);
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
 
@@ -60,7 +60,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 
 	try {
 		if (!params.storeId) {
-			return new NextResponse('Store id is required', { status: 400 });
+			return NextResponse.json({ error: 'Store not found' }, { status: 400 });
 		}
 
 		const billboards = await prisma.billboard.findMany({
@@ -72,6 +72,6 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 		return NextResponse.json(billboards);
 	} catch (error) {
 		console.log('[BILLBOARDS_GET]', error);
-		return new NextResponse('Internal error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
