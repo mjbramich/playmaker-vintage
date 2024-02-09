@@ -29,15 +29,25 @@ const BillboardHeading = ({ initialData }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			await fetch(`/api/stores/${params.storeId}/billboards/${params.billboardId}`, {
-				method: 'DELETE'
-			});
+			const response = await fetch(
+				`/api/stores/${params.storeId}/billboards/${params.billboardId}`,
+				{
+					method: 'DELETE'
+				}
+			);
+
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
+			}
 
 			router.push(`/store/${params.storeId}/billboards`);
 			router.refresh();
-			toast.success('Successfully deleted store');
+			toast.success('Successfully deleted billboard');
 		} catch (error) {
-			toast.error('Remove all products & categories first first');
+			if (error instanceof Error) {
+				toast.error(`Make sure to delete all categories first. ${error.message}`);
+			}
 		} finally {
 			setLoading(false);
 			setIsOpen(false);

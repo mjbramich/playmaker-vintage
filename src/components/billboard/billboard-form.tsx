@@ -54,31 +54,32 @@ const BillboardForm = ({ initialData }: Props) => {
 		try {
 			setLoading(true);
 
-			if (initialData) {
-				// update Billboard
-				await fetch(`/api/stores/${params.storeId}/billboards/${params.billboardId}`, {
-					method: 'PATCH',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				});
-			} else {
-				// Create new Billboard
-				await fetch(`/api/stores/${params.storeId}/billboards`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				});
+			const url = initialData
+				? `/api/stores/${params.storeId}/billboards/${params.billboardId}` // Update Billboard
+				: `/api/stores/${params.storeId}/billboards`; // Create Billboard
+
+			const method = initialData ? 'PATCH' : 'POST';
+
+			const response = await fetch(url, {
+				method,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
 			}
 
 			router.push(`/store/${params.storeId}/billboards`);
 			router.refresh();
 			toast.success(toastMessage);
 		} catch (error) {
-			toast.error('Something went wrong');
+			if (error instanceof Error) {
+				toast.error(error.message);
+			}
 		} finally {
 			setLoading(false);
 		}

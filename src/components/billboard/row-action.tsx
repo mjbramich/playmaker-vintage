@@ -33,15 +33,20 @@ const RowAction = ({ data }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			const deleted = await fetch(`/api/stores/${params.storeId}/billboards/${data.id}`, {
+			const response = await fetch(`/api/stores/${params.storeId}/billboards/${data.id}`, {
 				method: 'DELETE'
 			});
 
-			console.log(await deleted.json());
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
+			}
 			toast.success('Successfully deleted billboard');
 			router.refresh();
 		} catch (error) {
-			toast.error('Remove all products & categories first first');
+			if (error instanceof Error) {
+				toast.error(`Make sure to delete all categories first. ${error.message}`);
+			}
 		} finally {
 			setLoading(false);
 			setIsOpen(false);
