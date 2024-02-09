@@ -12,19 +12,19 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 		const { name, billboardId } = body;
 
 		if (!userId) {
-			return new NextResponse('Unauthenticated', { status: 401 });
+			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
 		}
 
 		if (!name) {
-			return new NextResponse('Name is required', { status: 400 });
+			return NextResponse.json({ error: 'Name is required' }, { status: 400 });
 		}
 
 		if (!billboardId) {
-			return new NextResponse('Billboard id is required', { status: 400 });
+			return NextResponse.json({ error: 'Billboard is required' }, { status: 400 });
 		}
 
 		if (!params.storeId) {
-			return new NextResponse('Store id is required', { status: 400 });
+			return NextResponse.json({ error: 'No store found' }, { status: 400 });
 		}
 
 		// Check to make sure user has access to store
@@ -36,7 +36,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 		});
 
 		if (!storeByUserId) {
-			return new NextResponse('Unauthorized', { status: 405 });
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		const category = await prisma.category.create({
@@ -50,17 +50,15 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 		return NextResponse.json(category);
 	} catch (error) {
 		console.log('[CATEGORIES_POST]', error);
-		return new NextResponse('Internal error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
 
 // GET ALL CATEGORIES FOR CURRENT STORE
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
-	console.log('Hello');
-
 	try {
 		if (!params.storeId) {
-			return new NextResponse('Store id is required', { status: 400 });
+			return NextResponse.json({ error: 'No store found' }, { status: 400 });
 		}
 
 		const categories = await prisma.category.findMany({
@@ -68,11 +66,10 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 				storeId: params.storeId
 			}
 		});
-		console.log(categories);
 
 		return NextResponse.json(categories);
 	} catch (error) {
 		console.log('[CATEGORIES_GET]', error);
-		return new NextResponse('Internal error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }

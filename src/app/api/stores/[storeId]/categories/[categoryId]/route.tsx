@@ -8,7 +8,7 @@ import { NextResponse } from 'next/server';
 export async function GET(req: Request, { params }: { params: { categoryId: string } }) {
 	try {
 		if (!params.categoryId) {
-			return new NextResponse('Category id is required', { status: 400 });
+			return NextResponse.json({ error: 'Category not found' }, { status: 400 });
 		}
 
 		const category = await prisma.category.findUnique({
@@ -20,7 +20,7 @@ export async function GET(req: Request, { params }: { params: { categoryId: stri
 		return NextResponse.json(category);
 	} catch (error) {
 		console.log('[CATEGORY_GET]', error);
-		return new NextResponse('Internal error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
 
@@ -36,21 +36,19 @@ export async function PATCH(
 		const { name, billboardId } = body;
 
 		if (!userId) {
-			return new NextResponse('Unauthenticated', {
-				status: 401
-			});
+			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
 		}
 
 		if (!name) {
-			return new NextResponse('Name is required', { status: 400 });
+			return NextResponse.json({ error: 'Name is required' }, { status: 400 });
 		}
 
 		if (!billboardId) {
-			return new NextResponse('Image is required', { status: 400 });
+			return NextResponse.json({ error: 'Billboard is required' }, { status: 400 });
 		}
 
 		if (!params.categoryId) {
-			return new NextResponse('Category id is required', { status: 400 });
+			return NextResponse.json({ error: 'Category not found' }, { status: 400 });
 		}
 
 		// Check to make sure user has access to store
@@ -62,7 +60,7 @@ export async function PATCH(
 		});
 
 		if (!storeByUserId) {
-			return new NextResponse('Unauthorized', { status: 405 });
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Update Category
@@ -79,7 +77,7 @@ export async function PATCH(
 		return NextResponse.json(category);
 	} catch (error) {
 		console.log('[CATEGORY_PATCH]', error);
-		return new NextResponse('Internal Server Error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
 
@@ -92,13 +90,11 @@ export async function DELETE(
 		const { userId } = auth();
 
 		if (!userId) {
-			return new NextResponse('Unauthenticated', {
-				status: 401
-			});
+			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
 		}
 
 		if (!params.categoryId) {
-			return new NextResponse('Category id is required', { status: 400 });
+			return NextResponse.json({ error: 'Category not found' }, { status: 400 });
 		}
 
 		// Check to make sure user has access to store
@@ -110,19 +106,20 @@ export async function DELETE(
 		});
 
 		if (!storeByUserId) {
-			return new NextResponse('Unauthorized', { status: 405 });
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Delete Category
-		const category = await prisma.category.deleteMany({
+		const category = await prisma.category.delete({
 			where: {
 				id: params.categoryId
 			}
 		});
+		console.log(category);
 
 		return NextResponse.json(category);
 	} catch (error) {
 		console.log('[CATEGORY_DELETE]', error);
-		return new NextResponse('Internal Server Error', { status: 500 });
+		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
