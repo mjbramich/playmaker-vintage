@@ -19,3 +19,12 @@ export type ProductColumn = {
 	category: string;
 	createdAt: string;
 };
+
+export type OrderColumn = {
+	id: string;
+	phone: string;
+	address: string;
+	products: string[];
+	total: string;
+	createdAt: string;
+};
