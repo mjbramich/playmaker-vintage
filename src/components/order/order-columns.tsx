@@ -30,5 +30,11 @@ export const columns: ColumnDef<OrderColumn>[] = [
 	{
 		accessorKey: 'total',
 		header: 'Total'
+	},
+	{
+		accessorKey: 'paid',
+		header: 'Paid',
+		// row.original is the original row object provided to the table
+		cell: ({ row }) => (row.original.paid ? 'Yes' : 'No')
 	}
 ];

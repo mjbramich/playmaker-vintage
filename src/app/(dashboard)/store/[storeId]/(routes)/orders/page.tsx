@@ -31,6 +31,7 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
 		total: currencyFormatter.format(
 			order.orderItems.reduce((total, item) => total + Number(item.product.price), 0)
 		),
+		paid: order.isPaid,
 		createdAt: format(order.createdAt, 'MMMM do, yyyy')
 	}));
 

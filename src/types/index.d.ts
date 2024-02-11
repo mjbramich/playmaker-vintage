@@ -26,5 +26,6 @@ export type OrderColumn = {
 	address: string;
 	products: string[];
 	total: string;
+	paid: boolean;
 	createdAt: string;
 };
