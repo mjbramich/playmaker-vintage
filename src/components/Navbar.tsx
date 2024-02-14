@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 
 import prisma from '@/lib/prismadb';
 import MainNav from '@/components/MainNav';
-import StoreSelect from '@/components/StoreSelect';
+import StoreSelect from '@/components/store-select';
 import Container from './container';
 
 const Navbar = async () => {
@@ -18,6 +18,7 @@ const Navbar = async () => {
 			userId
 		}
 	});
+
 	return (
 		<nav className='border-b'>
 			<Container>
