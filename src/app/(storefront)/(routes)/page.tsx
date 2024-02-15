@@ -1,4 +1,5 @@
 import Billboard from '@/components/billboard';
+import Hero from '@/components/hero';
 import prisma from '@/lib/prismadb';
 
 export default async function Home() {
@@ -9,7 +10,7 @@ export default async function Home() {
 	});
 	return (
 		<>
-			<p>HEllo baby</p>
+			<Hero />
 			<Billboard data={billboard} />
 		</>
 	);
