@@ -9,9 +9,11 @@ import { Category, Prisma } from '@prisma/client';
 import toast from 'react-hot-toast';
 
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -45,10 +47,12 @@ interface Props {
 
 const formSchema = z.object({
 	name: z.string().min(1),
-	size: z.string().min(1),
 	price: z.coerce.number().min(1), // coerce to number ?
+	size: z.string().min(1),
 	categoryId: z.string().min(1),
-	images: z.object({ url: z.string() }).array().nonempty()
+	images: z.object({ url: z.string() }).array().nonempty(),
+	featured: z.boolean().default(false).optional(),
+	archived: z.boolean().default(false).optional()
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -74,7 +78,9 @@ const ProductForm = ({ initialData, categories }: Props) => {
 					size: '',
 					price: 0,
 					categoryId: '',
-					images: []
+					images: [],
+					featured: false,
+					archived: false
 				}
 	});
 
@@ -225,6 +231,38 @@ const ProductForm = ({ initialData, categories }: Props) => {
 									</SelectContent>
 								</Select>
 								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name='featured'
+						render={({ field }) => (
+							<FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+								<FormControl>
+									<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+								</FormControl>
+								<div className='space-y-1 leading-none'>
+									<FormLabel>Featured</FormLabel>
+									<FormDescription>This product will appear on the home page</FormDescription>
+								</div>
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name='archived'
+						render={({ field }) => (
+							<FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+								<FormControl>
+									<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+								</FormControl>
+								<div className='space-y-1 leading-none'>
+									<FormLabel>Archived</FormLabel>
+									<FormDescription>
+										This product will not appear anywhere in the store.
+									</FormDescription>
+								</div>
 							</FormItem>
 						)}
 					/>
