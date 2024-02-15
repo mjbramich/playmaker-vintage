@@ -27,6 +27,8 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
 		size: item.size,
 		price: currencyFormatter.format(Number(item.price)), // Need to convert Decimal to number first then format
 		category: item.category.name,
+		featured: item.featured,
+		archived: item.archived,
 		createdAt: format(item.createdAt, 'MMMM do, yyyy')
 	}));
 

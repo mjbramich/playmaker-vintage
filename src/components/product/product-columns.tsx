@@ -1,6 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
+import { Check } from 'lucide-react';
 
 import { ProductColumn } from '@/types';
 import RowAction from '@/components/product/row-action';
@@ -14,6 +15,16 @@ export const columns: ColumnDef<ProductColumn>[] = [
 	{
 		accessorKey: 'createdAt',
 		header: 'Date'
+	},
+	{
+		accessorKey: 'featured',
+		header: 'Featured',
+		cell: ({ row }) => (row.original.featured ? <Check /> : null)
+	},
+	{
+		accessorKey: 'archived',
+		header: 'Archived',
+		cell: ({ row }) => (row.original.archived ? <Check /> : null)
 	},
 	{
 		accessorKey: 'size',
