@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import useMobileMenuStore from '@/stores/mobile-menu';
+import Footer from './footer';
 
 const PageContainer = ({ children }: { children: React.ReactNode }) => {
 	const { isOpen } = useMobileMenuStore();
@@ -15,6 +16,7 @@ const PageContainer = ({ children }: { children: React.ReactNode }) => {
 			)}
 		>
 			{children}
+			<Footer />
 		</div>
 	);
 };
