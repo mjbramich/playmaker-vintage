@@ -8,9 +8,9 @@ interface Props {
 const Billboard = ({ data }: Props) => {
 	const image = data?.imageUrl || '';
 	return (
-		<div className='bg-white'>
-			<div className='mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8'>
-				<div className='relative overflow-hidden rounded-lg'>
+		<div className=''>
+			<div className=' lg:mx-auto lg:max-w-7xl lg:px-6 '>
+				<div className='relative overflow-hidden lg:rounded-lg'>
 					<div className='absolute inset-0 '>
 						<Image
 							src={image}
@@ -19,9 +19,8 @@ const Billboard = ({ data }: Props) => {
 							fill
 						/>
 					</div>
-					<div aria-hidden='true' className='absolute inset-0 bg-gray-900/75 ' />
-
-					<div className='relative px-6 py-28 sm:px-8 sm:py-44 lg:px-16'>
+					<div aria-hidden='true' className='absolute inset-0 bg-gray-900/50 ' />
+					<div className='relative px-6 py-32 sm:px-8 sm:py-44 lg:px-16'>
 						<div className='relative mx-auto flex max-w-4xl flex-col items-center text-center'>
 							<h2 className='text-4xl font-bold uppercase tracking-tight text-white  sm:text-5xl lg:text-6xl'>
 								{data?.label}
