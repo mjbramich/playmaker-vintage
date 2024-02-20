@@ -27,7 +27,7 @@ const ProductList = ({ data, title, link }: Props) => (
 			))}
 		</ul>
 		{link && (
-			<div className='mt-12 px-4 sm:px-8 lg:px-0 '>
+			<div className='mt-12 px-4 sm:px-6 lg:px-0 '>
 				<Link
 					href={link.href}
 					className='text-sm font-medium uppercase text-primary transition-colors hover:text-muted-foreground'
