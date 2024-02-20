@@ -1,12 +1,17 @@
 import prisma from '@/lib/prismadb';
 import { format } from 'date-fns';
+
 import { currencyFormatter } from '@/lib/utils';
 import { ProductWithImage } from '@/types';
 import ProductInfo from '@/components/product-info';
 import ProductGallery from '@/components/product-gallery';
 import ProductList from '@/components/product-list';
 
-export default async function ProductPage({ params }: { params: { productId: string } }) {
+export default async function ProductPage({
+	params
+}: {
+	params: { productId: string; slug: string };
+}) {
 	// get product
 	const product = await prisma.product.findUnique({
 		where: {
@@ -55,8 +60,8 @@ export default async function ProductPage({ params }: { params: { productId: str
 	}));
 
 	return (
-		<section className='bg-white'>
-			<div className='grid px-4 pt-8 sm:px-6 sm:pt-16 md:grid-cols-2 md:gap-x-8 lg:mx-auto lg:max-w-7xl'>
+		<section className='bg-white lg:mx-auto lg:max-w-7xl '>
+			<div className='grid px-4 pt-8 sm:px-6 sm:pt-16 md:grid-cols-2 md:gap-x-8   '>
 				<ProductGallery productImages={formattedProduct.images} />
 				<ProductInfo product={formattedProduct} />
 			</div>
@@ -64,8 +69,8 @@ export default async function ProductPage({ params }: { params: { productId: str
 				title='You May Also Like'
 				data={formattedProducts}
 				link={{
-					text: `Back to ${product.category.name}`,
-					href: `/collections/${product.category.name}`
+					text: `Back to ${params.slug}`,
+					href: `/collections/${params.slug}`
 				}}
 			/>
 		</section>
