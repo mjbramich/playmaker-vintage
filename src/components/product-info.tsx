@@ -6,7 +6,7 @@ interface Props {
 }
 
 const ProductInfo = ({ product }: Props) => (
-	<div className='mx-auto mt-12 w-full max-w-2xl md:mt-0'>
+	<div className='mx-auto mt-12 w-full md:mt-0'>
 		<h1 className='text-3xl font-bold capitalize tracking-tight text-gray-900'>{product.name}</h1>
 
 		<div className='space-y-6'>
@@ -17,7 +17,7 @@ const ProductInfo = ({ product }: Props) => (
 
 		<form className='mt-6'>
 			<div className=''>
-				<Button className='w-full' size='lg'>
+				<Button className='w-full ' size='lg'>
 					Add to cart
 				</Button>
 			</div>
