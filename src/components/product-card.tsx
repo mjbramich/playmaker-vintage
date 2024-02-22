@@ -1,6 +1,8 @@
-import { ProductWithImage } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { ProductWithImage } from '@/types';
+import Price from '@/components/price';
 
 interface Props {
 	productData: ProductWithImage;
@@ -23,7 +25,7 @@ const ProductCard = ({ productData }: Props) => (
 				className='absolute inset-0'
 			/>
 			<h3 className='text-lg font-medium text-gray-900'>{productData.name}</h3>
-			<p className='text-sm font-medium text-gray-900'>{productData.price}</p>
+			<Price value={productData.price} />
 		</div>
 	</li>
 );

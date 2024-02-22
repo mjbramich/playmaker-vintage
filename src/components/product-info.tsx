@@ -1,33 +1,41 @@
+'use client';
+
+import useCartStore from '@/stores/cart';
 import { ProductWithImage } from '@/types';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
+import Price from '@/components/price';
 
 interface Props {
 	product: ProductWithImage;
 }
 
-const ProductInfo = ({ product }: Props) => (
-	<div className='mx-auto mt-12 w-full md:mt-0'>
-		<h1 className='text-3xl font-bold capitalize tracking-tight text-gray-900'>{product.name}</h1>
+const ProductInfo = ({ product }: Props) => {
+	const { addItem } = useCartStore();
 
-		<div className='space-y-6'>
-			<h2 className='sr-only'>Product information</h2>
-			<p className='text-3xl font-bold tracking-tight'>{product.price}</p>
-			<p className='text-xl font-semibold tracking-tight'>Size: {product.size}</p>
-		</div>
+	return (
+		<div className='mx-auto mt-12 w-full md:mt-0'>
+			<h1 className='text-3xl font-bold capitalize tracking-tight '>{product.name}</h1>
 
-		<form className='mt-6'>
-			<div className=''>
-				<Button className='w-full ' size='lg'>
-					Add to cart
-				</Button>
+			<div className='space-y-6'>
+				<h2 className='sr-only'>Product information</h2>
+				<Price value={product.price} />
+				<p className='text-xl font-semibold tracking-tight'>Size: {product.size}</p>
 			</div>
-		</form>
 
-		<div className='mt-6'>
-			<h3 className='sr-only'>Description</h3>
-			<div className='space-y-6 text-base text-muted-foreground'>Description:</div>
+			<form className='mt-6'>
+				<div className=''>
+					<Button className='w-full ' size='lg' onClick={() => addItem(product)}>
+						Add to cart
+					</Button>
+				</div>
+			</form>
+
+			<div className='mt-6'>
+				<h3 className='sr-only'>Description</h3>
+				<div className='space-y-6 text-base text-muted-foreground'>Description:</div>
+			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 export default ProductInfo;
