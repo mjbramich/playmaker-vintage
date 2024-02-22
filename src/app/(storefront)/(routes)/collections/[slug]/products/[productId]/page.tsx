@@ -1,7 +1,6 @@
 import prisma from '@/lib/prismadb';
 import { format } from 'date-fns';
 
-import { currencyFormatter } from '@/lib/utils';
 import { ProductWithImage } from '@/types';
 import ProductInfo from '@/components/product-info';
 import ProductGallery from '@/components/product-gallery';
@@ -43,7 +42,7 @@ export default async function ProductPage({
 
 	const formattedProduct: ProductWithImage = {
 		...product,
-		price: currencyFormatter.format(Number(product.price)),
+		price: product.price.toString(),
 		categoryId: product.category.id,
 		category: product.category.name,
 		createdAt: format(new Date(product.createdAt), 'MMMM do, yyyy'),
@@ -52,7 +51,9 @@ export default async function ProductPage({
 
 	const formattedProducts: ProductWithImage[] = relatedProducts.map((item) => ({
 		...item,
-		price: currencyFormatter.format(Number(item.price)), // Need to convert Decimal to number first then format
+		price: product.price.toString(),
+
+		// price: currencyFormatter.format(Number(item.price)), // Need to convert Decimal to number first then format
 		categoryId: item.categoryId,
 		category: item.category.name,
 		createdAt: format(item.createdAt, 'MMMM do, yyyy'),
