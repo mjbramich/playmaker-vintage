@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 
 import prisma from '@/lib/prismadb';
 import { ProductWithImage } from '@/types';
-import { currencyFormatter, validateSortInput } from '@/lib/utils';
+import { validateSortInput } from '@/lib/utils';
 import SortableProductList from '@/components/sortable-product-list';
 
 export default async function CollectionsPage({
@@ -63,7 +63,7 @@ export default async function CollectionsPage({
 
 	const formattedProducts: ProductWithImage[] = products.map((item) => ({
 		...item,
-		price: currencyFormatter.format(Number(item.price)),
+		price: item.price.toString(),
 		categoryId: item.category.id,
 		category: item.category.name,
 		createdAt: format(new Date(item.createdAt), 'MMMM do, yyyy'),
