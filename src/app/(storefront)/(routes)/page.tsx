@@ -1,7 +1,6 @@
 import prisma from '@/lib/prismadb';
 import { ProductWithImage } from '@/types';
 import { format } from 'date-fns';
-import { currencyFormatter } from '@/lib/utils';
 
 import Billboard from '@/components/billboard';
 import Hero from '@/components/hero';
@@ -31,7 +30,7 @@ export default async function Home() {
 
 	const formattedProducts: ProductWithImage[] = featuredProducts.map((item) => ({
 		...item,
-		price: currencyFormatter.format(Number(item.price)), // Need to convert Decimal to number first then format
+		price: item.price.toString(),
 		categoryId: item.categoryId,
 		category: item.category.name,
 		createdAt: format(item.createdAt, 'MMMM do, yyyy'),
