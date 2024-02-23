@@ -20,6 +20,7 @@ import {
 	FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import ImageUpload from '@/components/ui/image-upload';
 import {
 	Select,
@@ -49,6 +50,7 @@ const formSchema = z.object({
 	name: z.string().min(1),
 	price: z.coerce.number().min(1), // coerce to number ?
 	size: z.string().min(1),
+	description: z.string().min(1),
 	categoryId: z.string().min(1),
 	images: z.object({ url: z.string() }).array().nonempty(),
 	featured: z.boolean().default(false).optional(),
@@ -77,6 +79,7 @@ const ProductForm = ({ initialData, categories }: Props) => {
 					name: '',
 					size: '',
 					price: 0,
+					description: '',
 					categoryId: '',
 					images: [],
 					featured: false,
@@ -92,8 +95,8 @@ const ProductForm = ({ initialData, categories }: Props) => {
 			setLoading(true);
 
 			const url = initialData
-				? `/api/stores/${params.storeId}/products/${params.productId}` // Update Product
-				: `/api/stores/${params.storeId}/products`; // Create Product
+				? `/api/store/products/${params.productId}` // Update Product
+				: `/api/store/products`; // Create Product
 
 			const method = initialData ? 'PATCH' : 'POST';
 
@@ -148,7 +151,7 @@ const ProductForm = ({ initialData, categories }: Props) => {
 						</FormItem>
 					)}
 				/>
-				<div className='grid gap-8 sm:grid-cols-2 lg:max-w-4xl lg:grid-cols-3 '>
+				<div className='grid gap-8 sm:grid-cols-2 lg:max-w-4xl  '>
 					<FormField
 						control={form.control}
 						name='name'
@@ -230,6 +233,24 @@ const ProductForm = ({ initialData, categories }: Props) => {
 										))}
 									</SelectContent>
 								</Select>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name='description'
+						render={({ field }) => (
+							<FormItem className='col-span-2'>
+								<FormLabel>Description</FormLabel>
+								<FormControl>
+									<Textarea
+										{...field}
+										placeholder='Info about the product'
+										className='col-span-2'
+									/>
+								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
