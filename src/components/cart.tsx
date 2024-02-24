@@ -2,32 +2,65 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { CheckCircle2, XCircle, MoveRight } from 'lucide-react';
 
+import { ProductWithImage } from '@/types';
 import useCartStore from '@/stores/cart';
-import Price from '@/components/price';
 import useStore from '@/hooks/useStore';
+import Price from '@/components/price';
 import { Button } from '@/components/ui/button';
 
 const Cart = () => {
 	const { removeItem } = useCartStore();
+	const router = useRouter();
 
 	// Get items in store on mount to avoid hydration issues
 	const products = useStore(useCartStore, (state) => state.items);
-
 	const orderTotal = products?.reduce((total, item) => total + Number(item.price), 0);
 
+	async function handleCheckout(
+		e: React.FormEvent<HTMLButtonElement>,
+		orderItems: ProductWithImage[]
+	) {
+		const orderItemIds = orderItems.map((item) => item.id);
+		// Prevent default form submission
+		e.preventDefault();
+		try {
+			const response = await fetch('/api/checkout', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ orderItemIds })
+			});
+
+			if (!response.ok) {
+				const { error } = await response.json();
+				throw new Error(error);
+			}
+
+			const data = await response.json();
+			// Go to stripe checkout session
+			router.push(data.url);
+		} catch (error) {
+			if (error instanceof Error) {
+				toast.error(error.message);
+			}
+		}
+	}
+
+	// On server, skip rendering to avoid hydration issues since the store is not on the server.
 	if (!products) {
 		return null;
 	}
 
-	// Since we are storing the cart items in our store in localStorage, we need to run this on inital mount on client.
+	// On mount render the cart
 	return (
 		<div className='bg-white'>
 			<div className='mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0'>
-				<h1 className='text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
-					Your cart
-				</h1>
+				<h1 className='text-center text-3xl font-bold  text-playmaker sm:text-4xl'>Your cart</h1>
 
 				{products.length ? (
 					<form className='mt-12'>
@@ -54,7 +87,7 @@ const Cart = () => {
 													<h4 className='text-sm sm:text-base'>
 														<Link
 															href={`/collections/${product.category}/product/${product.id}`}
-															className='font-medium text-gray-700 hover:text-gray-800'
+															className='font-medium capitalize hover:text-muted-foreground'
 														>
 															{product.name}
 														</Link>
@@ -121,7 +154,13 @@ const Cart = () => {
 							</div>
 
 							<div className='mt-10'>
-								<Button className='w-full px-4 py-3 text-base font-medium' size='lg'>
+								<Button
+									className='w-full px-4 py-3 text-base font-medium  '
+									size='lg'
+									disabled={products.length < 1}
+									onClick={(e) => handleCheckout(e, products)}
+									variant='playmaker'
+								>
 									Checkout
 								</Button>
 							</div>
