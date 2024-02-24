@@ -54,6 +54,10 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				playmaker: {
+					DEFAULT: 'hsl(var(--playmaker))',
+					foreground: 'hsl(var(---foreground))'
 				}
 			},
 			borderRadius: {
