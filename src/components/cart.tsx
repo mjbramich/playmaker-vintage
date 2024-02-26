@@ -1,8 +1,9 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { CheckCircle2, XCircle, MoveRight } from 'lucide-react';
 
@@ -13,12 +14,13 @@ import Price from '@/components/price';
 import { Button } from '@/components/ui/button';
 
 const Cart = () => {
+	const [loading, setLoading] = useState(false);
 	const { removeItem } = useCartStore();
 	const router = useRouter();
 
 	// Get items in store on mount to avoid hydration issues
 	const products = useStore(useCartStore, (state) => state.items);
-	const orderTotal = products?.reduce((total, item) => total + Number(item.price), 0);
+	const orderTotal = products?.reduce((total, item) => total + Number(item.price), 0) || 0;
 
 	async function handleCheckout(
 		e: React.FormEvent<HTMLButtonElement>,
@@ -28,6 +30,8 @@ const Cart = () => {
 		// Prevent default form submission
 		e.preventDefault();
 		try {
+			setLoading(true);
+
 			const response = await fetch('/api/checkout', {
 				method: 'POST',
 				headers: {
@@ -48,6 +52,8 @@ const Cart = () => {
 			if (error instanceof Error) {
 				toast.error(error.message);
 			}
+		} finally {
+			setLoading(false);
 		}
 	}
 
@@ -144,7 +150,7 @@ const Cart = () => {
 									<div className='flex items-center justify-between'>
 										<p className='text-base font-medium text-gray-900'>Subtotal</p>
 										<div className='ml-4 text-base font-medium text-gray-900'>
-											<Price value={orderTotal!} />
+											<Price value={orderTotal} />
 										</div>
 									</div>
 								</div>
@@ -157,7 +163,7 @@ const Cart = () => {
 								<Button
 									className='w-full px-4 py-3 text-base font-medium  '
 									size='lg'
-									disabled={products.length < 1}
+									disabled={products.length < 1 || loading}
 									onClick={(e) => handleCheckout(e, products)}
 									variant='playmaker'
 								>
