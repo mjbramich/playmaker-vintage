@@ -18,7 +18,6 @@ model Store {
   billboards Billboard[] @relation("StoreToBillboard")
   categories Category[]  @relation("StoreToCategory")
   products   Product[]   @relation("StoreToProduct")
-  orders    Order[]      @relation("StoreToOrder")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -88,16 +87,13 @@ model Image {
 
 model Order {
   id         String @id @default(uuid())
-  storeId    String
-  store      Store @relation("StoreToOrder", fields: [storeId], references: [id])
   orderItems OrderItem[]
   isPaid     Boolean @default(false)
+  name       String @default("")
   phone      String @default("")
   address    String @default("")
   createdAt  DateTime @default(now())
   updatedAt  DateTime  @updatedAt
-
-  @@index([storeId])
 }
 
 model OrderItem {
