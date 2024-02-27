@@ -5,7 +5,7 @@ import prisma from '@/lib/prismadb';
 // eg: api/stores/[storeId]/billboards => [storeId] = params
 
 // CREATE NEW BILLBOARD
-export async function POST(req: Request, { params }: { params: { storeId: string } }) {
+export async function POST(req: Request) {
 	try {
 		const { userId } = auth();
 		const body = await req.json();
@@ -21,10 +21,6 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
 		if (!imageUrl) {
 			return NextResponse.json({ error: 'Image is required' }, { status: 400 });
-		}
-
-		if (!params.storeId) {
-			return NextResponse.json({ error: 'Store not found' }, { status: 400 });
 		}
 
 		const billboard = await prisma.billboard.create({
