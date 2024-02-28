@@ -10,6 +10,20 @@ export async function POST(req: Request) {
 
 		// Find all products from Order.
 		// Need to handle this on the server so the price cant be manipulated on the client etc
+
+		// create initial order, user still needs to pay
+		const order = await prisma.order.create({
+			data: {
+				isPaid: false,
+				orderItems: {
+					// Connect existing products to the order record
+					connect: orderItemIds.map((orderItem: string) => ({
+						id: orderItem
+					}))
+				}
+			}
+		});
+
 		const items = await prisma.product.findMany({
 			where: {
 				id: {
@@ -17,7 +31,7 @@ export async function POST(req: Request) {
 				}
 			},
 			include: {
-				images: true
+				images: true // So we can show images on stripe checkout page
 			}
 		});
 
@@ -47,16 +61,24 @@ export async function POST(req: Request) {
 			},
 			// Copy shipping Id's from stripe dashboard and add here for shipping options
 			shipping_options: [
-				// !!! Shipping rates to live mode, when in prod
+				// !!! Change Shipping rates to live mode, when in prod
 				{ shipping_rate: 'shr_1OnCzmGQDkutFIq5NEXJkp4m' },
 				{ shipping_rate: 'shr_1OnDCXGQDkutFIq5IcJVFkWm' }
-			]
+			],
+			phone_number_collection: {
+				enabled: true
+			},
+			expand: ['customer'], // allows access to customer object
+			metadata: {
+				orderId: order.id // Set order id in session, to update order later when payment succeeds
+			}
 		};
 		// Create Checkout Session from body params.
 		const session = await stripe.checkout.sessions.create(params);
 
+		// WebHook handles successfull payment of order.
+
 		// TODO
-		// Create new Order, so details can be shown in the admin page
 		// Create success page when stripe checkout successfull ?
 
 		// No need for setting CORS headers since we are handling redirection on client

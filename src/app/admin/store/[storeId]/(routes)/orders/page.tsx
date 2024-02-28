@@ -6,18 +6,12 @@ import Heading from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import OrdersTable from '@/components/order/order-table';
 
-const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
+const OrdersPage = async () => {
 	const orders = await prisma.order.findMany({
-		where: {
-			storeId: params.storeId
-		},
 		include: {
-			orderItems: {
-				include: {
-					product: true
-				}
-			}
+			orderItems: true
 		},
+
 		orderBy: {
 			createdAt: 'desc'
 		}
@@ -27,9 +21,9 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
 		id: order.id,
 		phone: order.phone,
 		address: order.address,
-		products: order.orderItems.map((item) => item.product.name),
+		products: order.orderItems.map((item) => item.name),
 		total: currencyFormatter.format(
-			order.orderItems.reduce((total, item) => total + Number(item.product.price), 0)
+			order.orderItems.reduce((total, item) => total + Number(item.price), 0)
 		),
 		paid: order.isPaid,
 		createdAt: format(order.createdAt, 'MMMM do, yyyy')
