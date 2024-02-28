@@ -65,12 +65,14 @@ model Product {
   archived  Boolean @default(false)
   // Need more than one image per product sometimes
   images     Image[]
-  orderItems OrderItem[]
+  orderId   String @default("") // Foreign Key to Order 
+  order      Order @relation(fields: [orderId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([storeId])
   @@index([categoryId])
+  @@index([orderId])
 
 }
 
@@ -87,23 +89,24 @@ model Image {
 
 model Order {
   id         String @id @default(uuid())
-  orderItems OrderItem[]
+  orderItems Product[]
   isPaid     Boolean @default(false)
   name       String @default("")
+  email      String @default("")
   phone      String @default("")
   address    String @default("")
   createdAt  DateTime @default(now())
   updatedAt  DateTime  @updatedAt
 }
 
-model OrderItem {
-  id  String @id @default(uuid())
-  orderId String
-  order Order @relation(fields: [orderId], references: [id])
-  productId String
-  product Product @relation(fields: [productId], references: [id])
+// model OrderItem {
+//   id  String @id @default(uuid())
+//   orderId String
+//   order Order @relation(fields: [orderId], references: [id])
+//   productId String
+//   product Product @relation(fields: [productId], references: [id])
 
-  @@index([orderId])
-  @@index([productId])
+//   @@index([orderId])
+//   @@index([productId])
 
-}
+// }
