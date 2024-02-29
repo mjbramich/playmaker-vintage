@@ -28,7 +28,8 @@ export default async function ProductPage({
 			// don't include current product
 			id: {
 				not: product?.id
-			}
+			},
+			archived: false
 		},
 		include: {
 			images: true,

@@ -3,15 +3,13 @@ import Stripe from 'stripe';
 import stripe from '@/lib/stripe';
 import { NextResponse } from 'next/server';
 
-// Set up stripe CLI to listen to local webhook
+// Set up stripe CLI to listen to local webhook (TEST MODE)
 // stripe listen --forward-to http://localhost:3000/api/webhooks
 
 // Stripe CLI secret
 const webhookSecretCLI = 'whsec_328e426ad393402870a1da222dbd560165d70e348c9d321f6b4a258a588e3a1f';
 
 export async function POST(req: Request) {
-	console.log('Running');
-
 	// access the raw content of request
 	const body = await req.text();
 	console.log(body);
@@ -90,7 +88,7 @@ export async function POST(req: Request) {
 				// Update items in order to remove them from store
 				const orderItems = order.orderItems.map((item) => item.id);
 
-				const archivedProducts = await prisma.product.updateMany({
+				await prisma.product.updateMany({
 					where: {
 						id: {
 							in: orderItems
@@ -100,10 +98,6 @@ export async function POST(req: Request) {
 						archived: true
 					}
 				});
-
-				console.log(archivedProducts);
-
-				console.log(order);
 			} catch (error: any) {
 				console.log(error);
 			}

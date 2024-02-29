@@ -17,7 +17,8 @@ export default async function Home() {
 
 	const featuredProducts = await prisma.product.findMany({
 		where: {
-			featured: true
+			featured: true,
+			archived: false
 		},
 		take: 4, // Limit the results to the first 4 items
 		include: {

@@ -52,6 +52,7 @@ export async function POST(req: Request) {
 		const params: Stripe.Checkout.SessionCreateParams = {
 			line_items,
 			mode: 'payment',
+			// Set url query parameters, to display success or error on client
 			success_url: `${req.headers.get('origin')}/?success=true`,
 			cancel_url: `${req.headers.get('origin')}/?canceled=true`,
 			automatic_tax: { enabled: true },

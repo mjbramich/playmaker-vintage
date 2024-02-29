@@ -21,6 +21,9 @@ export default async function CollectionsPage({
 
 	if (params.slug === 'all') {
 		products = await prisma.product.findMany({
+			where: {
+				archived: false
+			},
 			include: {
 				images: true,
 				category: true
@@ -35,7 +38,8 @@ export default async function CollectionsPage({
 			where: {
 				category: {
 					name: params.slug
-				}
+				},
+				archived: false
 			},
 			include: {
 				images: true,
