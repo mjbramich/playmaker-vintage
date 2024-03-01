@@ -8,9 +8,10 @@ export async function POST(req: Request) {
 		// grab items in order from client
 		const { orderItemIds } = await req.json();
 
+		// Handle Archived Product in Order
+
 		// Find all products from Order.
 		// Need to handle this on the server so the price cant be manipulated on the client etc
-
 		// create initial order, user still needs to pay
 		const order = await prisma.order.create({
 			data: {
@@ -53,8 +54,8 @@ export async function POST(req: Request) {
 			line_items,
 			mode: 'payment',
 			// Set url query parameters, to display success or error on client
-			success_url: `${req.headers.get('origin')}/?success=true`,
-			cancel_url: `${req.headers.get('origin')}/?canceled=true`,
+			success_url: `${req.headers.get('origin')}/cart?success=true`,
+			cancel_url: `${req.headers.get('origin')}/cart?canceled=true`,
 			automatic_tax: { enabled: true },
 			billing_address_collection: 'required',
 			shipping_address_collection: {

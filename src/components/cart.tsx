@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
@@ -14,9 +14,22 @@ import Price from '@/components/price';
 import { Button } from '@/components/ui/button';
 
 const Cart = () => {
+	const params = useSearchParams();
 	const [loading, setLoading] = useState(false);
-	const { removeItem } = useCartStore();
+	const { removeItem, removeAll } = useCartStore();
 	const router = useRouter();
+
+	useEffect(() => {
+		if (params.has('success')) {
+			toast.success('Order completed successfully');
+			// after successfull order remove all items in cart
+			removeAll();
+		}
+
+		if (params.has('canceled')) {
+			toast.error('Order failed: Something went wrong with your order.');
+		}
+	}, [params, removeAll]);
 
 	// Get items in store on mount to avoid hydration issues
 	const products = useStore(useCartStore, (state) => state.items);
