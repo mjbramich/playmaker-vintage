@@ -1,16 +1,13 @@
 import prisma from '@/lib/prismadb';
 import { format } from 'date-fns';
-import { currencyFormatter } from '@/lib/utils';
 
+import { currencyFormatter } from '@/lib/utils';
 import { ProductColumn } from '@/types';
 import ProductsTable from '@/components/product/product-table';
 import Products from '@/components/product/products';
 
-const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
+const ProductsPage = async () => {
 	const products = await prisma.product.findMany({
-		where: {
-			storeId: params.storeId
-		},
 		include: {
 			category: true
 		},

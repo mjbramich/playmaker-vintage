@@ -70,7 +70,7 @@ const MobileNav = ({ isOpen }: Props) => {
 				{/* user signed in */}
 				<SignedIn>
 					<Link
-						href='/admin/store'
+						href='/admin/'
 						className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
 					>
 						Dashboard

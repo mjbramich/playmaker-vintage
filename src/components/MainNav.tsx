@@ -3,40 +3,39 @@
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { usePathname, useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
 	const pathname = usePathname();
-	const params = useParams();
 
 	const routes = [
 		{
-			href: `/admin/store/${params.storeId}`,
+			href: `/admin`,
 			name: 'Dashboard',
-			active: pathname === `/store/${params.storeId}`
+			active: pathname === `/admin`
 		},
 		{
-			href: `/admin/store/${params.storeId}/billboards`,
+			href: `/admin/billboards`,
 			name: 'Billboards',
 			active: pathname.includes('billboards')
 		},
 		{
-			href: `/admin/store/${params.storeId}/categories`,
+			href: `/admin/categories`,
 			name: 'Categories',
 			active: pathname.includes('categories')
 		},
 		{
-			href: `/admin/store/${params.storeId}/products`,
+			href: `/admin/products`,
 			name: 'Products',
 			active: pathname.includes('products')
 		},
 		{
-			href: `/admin/store/${params.storeId}/orders`,
+			href: `/admin/orders`,
 			name: 'Orders',
 			active: pathname.includes('orders')
 		},
 		{
-			href: `/admin/store/${params.storeId}/settings`,
+			href: `/admin/settings`,
 			name: 'Settings',
 			active: pathname.includes('settings')
 		}

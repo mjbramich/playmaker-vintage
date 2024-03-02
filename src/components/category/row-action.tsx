@@ -79,7 +79,7 @@ const RowAction = ({ data }: Props) => {
 					<DropdownMenuSeparator />
 					<DropdownMenuItem
 						// Route to individual category
-						onClick={() => router.push(`/store/${params.storeId}/categories/${data.id}`)}
+						onClick={() => router.push(`/admin/categories/${data.id}`)}
 					>
 						<Edit className='mr-2 h-4 w-4' /> Update
 					</DropdownMenuItem>

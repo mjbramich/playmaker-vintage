@@ -1,6 +1,7 @@
+import prisma from '@/lib/prismadb';
+
 import CategoryHeading from '@/components/category/category-heading';
 import CategoryForm from '@/components/category/category-form';
-import prisma from '@/lib/prismadb';
 
 const BillboardPage = async ({ params }: { params: { categoryId: string; storeId: string } }) => {
 	const category = await prisma.category.findUnique({
@@ -9,11 +10,7 @@ const BillboardPage = async ({ params }: { params: { categoryId: string; storeId
 		}
 	});
 
-	const billboards = await prisma.billboard.findMany({
-		where: {
-			storeId: params.storeId
-		}
-	});
+	const billboards = await prisma.billboard.findMany();
 
 	return (
 		<div className='space-y-8'>

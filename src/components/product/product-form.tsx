@@ -110,7 +110,7 @@ const ProductForm = ({ initialData, categories }: Props) => {
 				throw new Error(error);
 			}
 
-			router.push(`/store/${params.storeId}/products`);
+			router.push(`/admin/products`);
 			router.refresh();
 			toast.success(toastMessage);
 		} catch (error) {

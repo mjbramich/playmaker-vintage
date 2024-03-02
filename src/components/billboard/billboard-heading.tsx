@@ -18,7 +18,6 @@ interface Props {
 const BillboardHeading = ({ initialData }: Props) => {
 	const [open, setIsOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
-	console.log(initialData, 'header');
 
 	const params = useParams();
 	const router = useRouter();
@@ -41,7 +40,7 @@ const BillboardHeading = ({ initialData }: Props) => {
 				throw new Error(error);
 			}
 
-			router.push(`/store/${params.storeId}/billboards`);
+			router.push(`/admin/billboards`);
 			router.refresh();
 			toast.success('Successfully deleted billboard');
 		} catch (error) {

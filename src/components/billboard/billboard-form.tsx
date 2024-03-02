@@ -73,7 +73,7 @@ const BillboardForm = ({ initialData }: Props) => {
 				throw new Error(error);
 			}
 
-			router.push(`/store/${params.storeId}/billboards`);
+			router.push(`/admin/billboards`);
 			router.refresh();
 			toast.success(toastMessage);
 		} catch (error) {

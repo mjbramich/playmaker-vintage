@@ -1,7 +1,7 @@
 import prisma from '@/lib/prismadb';
 import { format } from 'date-fns';
-import { currencyFormatter } from '@/lib/utils';
 
+import { currencyFormatter } from '@/lib/utils';
 import Heading from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import OrdersTable from '@/components/order/order-table';

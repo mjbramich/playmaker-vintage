@@ -48,7 +48,7 @@ const ProductHeading = ({ initialData }: Props) => {
 				throw new Error(error);
 			}
 
-			router.push(`/store/${params.storeId}/products`);
+			router.push(`/admin/products`);
 			router.refresh();
 			toast.success('Successfully deleted product');
 		} catch (error) {

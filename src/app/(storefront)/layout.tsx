@@ -22,7 +22,7 @@ export default async function SetupLayout({ children }: { children: React.ReactN
 
 	// eslint-disable-next-line
 
-	// Grab all Categories to show
+	// Grab all Categories to show in Navbar as links
 	const categories = await prisma.category.findMany({
 		include: {
 			billboard: true

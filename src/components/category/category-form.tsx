@@ -32,7 +32,7 @@ interface Props {
 }
 
 const formSchema = z.object({
-	name: z.string().min(1),
+	name: z.string().min(1).trim().toLowerCase(), // make lowercase so no issues with routing
 	billboardId: z.string().min(1)
 });
 
@@ -80,7 +80,7 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 				throw new Error(error);
 			}
 
-			router.push(`/store/${params.storeId}/categories`);
+			router.push(`/admin/categories`);
 			router.refresh();
 			toast.success(toastMessage);
 		} catch (error) {

@@ -40,7 +40,7 @@ const CategoryHeading = ({ initialData }: Props) => {
 				throw new Error(error);
 			}
 
-			router.push(`/store/${params.storeId}/categories`);
+			router.push(`/admin/categories`);
 			router.refresh();
 			toast.success('Successfully deleted category');
 		} catch (error) {
