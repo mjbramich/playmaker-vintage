@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs';
 import prisma from '@/lib/prismadb';
 
-// eg: api/stores/[storeId]/categoires => [storeId] = params
+// eg: api/store/categories
 
 // CREATE NEW CATEGORY
-export async function POST(req: Request, { params }: { params: { storeId: string } }) {
+export async function POST(req: Request) {
 	try {
 		const { userId } = auth();
 		const body = await req.json();
@@ -23,27 +23,10 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			return NextResponse.json({ error: 'Billboard is required' }, { status: 400 });
 		}
 
-		if (!params.storeId) {
-			return NextResponse.json({ error: 'No store found' }, { status: 400 });
-		}
-
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-		}
-
 		const category = await prisma.category.create({
 			data: {
 				name,
-				billboardId,
-				storeId: params.storeId
+				billboardId
 			}
 		});
 
@@ -55,17 +38,9 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 }
 
 // GET ALL CATEGORIES FOR CURRENT STORE
-export async function GET(req: Request, { params }: { params: { storeId: string } }) {
+export async function GET() {
 	try {
-		if (!params.storeId) {
-			return NextResponse.json({ error: 'No store found' }, { status: 400 });
-		}
-
-		const categories = await prisma.category.findMany({
-			where: {
-				storeId: params.storeId
-			}
-		});
+		const categories = await prisma.category.findMany();
 
 		return NextResponse.json(categories);
 	} catch (error) {

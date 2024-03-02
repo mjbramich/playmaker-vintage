@@ -3,7 +3,7 @@ import prisma from '@/lib/prismadb';
 import ProductForm from '@/components/product/product-form';
 import ProductHeading from '@/components/product/product-heading';
 
-const ProductPage = async ({ params }: { params: { storeId: string; productId: string } }) => {
+const ProductPage = async ({ params }: { params: { productId: string } }) => {
 	const product = await prisma.product.findUnique({
 		where: {
 			id: params.productId
@@ -13,11 +13,7 @@ const ProductPage = async ({ params }: { params: { storeId: string; productId: s
 		}
 	});
 
-	const categories = await prisma.category.findMany({
-		where: {
-			storeId: params.storeId
-		}
-	});
+	const categories = await prisma.category.findMany();
 
 	// type ProductWithImages = Prisma.ProductGetPayload<{
 	// 	include: {

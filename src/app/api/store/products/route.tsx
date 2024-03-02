@@ -2,14 +2,14 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs';
 import prisma from '@/lib/prismadb';
 
-// eg: api/stores/[storeId]/products=> [storeId] = params
+// eg: api/stores/products
 
 // CREATE NEW CATEGORY
-export async function POST(req: Request, { params }: { params: { storeId: string } }) {
+export async function POST(req: Request) {
 	try {
 		const { userId } = auth();
 		const body = await req.json();
-		const { name, size, price, images, categoryId } = body;
+		const { name, size, price, images, categoryId, description } = body;
 		console.log('images:', images);
 		if (!userId) {
 			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
@@ -35,16 +35,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			return NextResponse.json({ error: 'Category is required' }, { status: 400 });
 		}
 
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 400 });
+		if (!description) {
+			return NextResponse.json({ error: 'Description is required' }, { status: 400 });
 		}
 
 		const product = await prisma.product.create({
@@ -53,7 +45,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 				size,
 				price,
 				categoryId,
-				storeId: params.storeId,
+				description,
 				images: {
 					createMany: {
 						data: images

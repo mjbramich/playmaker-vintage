@@ -52,18 +52,6 @@ export async function PATCH(
 			return NextResponse.json({ error: 'Billboard not found' }, { status: 400 });
 		}
 
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-		}
-
 		// Update Billboard
 		const billboard = await prisma.billboard.updateMany({
 			where: {
@@ -83,10 +71,7 @@ export async function PATCH(
 }
 
 // DELETE BILLBOARD
-export async function DELETE(
-	_req: Request,
-	{ params }: { params: { storeId: string; billboardId: string } }
-) {
+export async function DELETE(_req: Request, { params }: { params: { billboardId: string } }) {
 	try {
 		const { userId } = auth();
 
@@ -96,18 +81,6 @@ export async function DELETE(
 
 		if (!params.billboardId) {
 			return NextResponse.json({ error: 'Billboard not found' }, { status: 400 });
-		}
-
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Delete Billboard

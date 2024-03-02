@@ -2,7 +2,7 @@ import prisma from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 // dynamic route segments are automatically passed as the params props.
-// eg: api/stores/[storeId]/categories/[categoryId] => [storeId], [categoryId] = params
+// eg: api/store/categories/[categoryId] =>  [categoryId] = params
 
 // GET SINGLE CATEGORY
 export async function GET(req: Request, { params }: { params: { categoryId: string } }) {
@@ -25,10 +25,7 @@ export async function GET(req: Request, { params }: { params: { categoryId: stri
 }
 
 // EDIT CATEGORY
-export async function PATCH(
-	req: Request,
-	{ params }: { params: { storeId: string; categoryId: string } }
-) {
+export async function PATCH(req: Request, { params }: { params: { categoryId: string } }) {
 	try {
 		const { userId } = auth();
 		const body = await req.json();
@@ -49,18 +46,6 @@ export async function PATCH(
 
 		if (!params.categoryId) {
 			return NextResponse.json({ error: 'Category not found' }, { status: 400 });
-		}
-
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Update Category
@@ -95,18 +80,6 @@ export async function DELETE(
 
 		if (!params.categoryId) {
 			return NextResponse.json({ error: 'Category not found' }, { status: 400 });
-		}
-
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Delete Category

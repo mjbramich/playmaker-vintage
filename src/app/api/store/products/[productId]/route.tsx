@@ -2,7 +2,7 @@ import prisma from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 // dynamic route segments are automatically passed as the params props.
-// eg: api/stores/[storeId]/products/[productId] => [storeId], [productId] = params
+// eg: api/store/products/[productId] => [productId] = params
 
 // GET SINGLE PRODUCT
 
@@ -26,14 +26,11 @@ export async function GET(req: Request, { params }: { params: { productId: strin
 }
 
 // EDIT PRODUCT
-export async function PATCH(
-	req: Request,
-	{ params }: { params: { storeId: string; productId: string } }
-) {
+export async function PATCH(req: Request, { params }: { params: { productId: string } }) {
 	try {
 		const { userId } = auth();
 		const body = await req.json();
-		const { name, size, price, images, categoryId, featured, archived } = body;
+		const { name, size, price, images, categoryId, description, featured, archived } = body;
 
 		if (!userId) {
 			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
@@ -59,16 +56,8 @@ export async function PATCH(
 			return NextResponse.json({ error: 'Category is required' }, { status: 400 });
 		}
 
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+		if (!description) {
+			return NextResponse.json({ error: 'Description is required' }, { status: 400 });
 		}
 
 		// Update Product
@@ -81,6 +70,7 @@ export async function PATCH(
 				size,
 				price,
 				categoryId,
+				description,
 				featured,
 				archived,
 				images: {
@@ -101,10 +91,7 @@ export async function PATCH(
 }
 
 // DELETE CATEGORY
-export async function DELETE(
-	_req: Request,
-	{ params }: { params: { storeId: string; productId: string } }
-) {
+export async function DELETE(_req: Request, { params }: { params: { productId: string } }) {
 	try {
 		const { userId } = auth();
 
@@ -114,18 +101,6 @@ export async function DELETE(
 
 		if (!params.productId) {
 			return NextResponse.json({ error: 'Product not found' }, { status: 400 });
-		}
-
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
 		}
 
 		// Delete Category

@@ -27,23 +27,10 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			return NextResponse.json({ error: 'Store not found' }, { status: 400 });
 		}
 
-		// Check to make sure user has access to store
-		const storeByUserId = await prisma.store.findFirst({
-			where: {
-				id: params.storeId,
-				userId
-			}
-		});
-
-		if (!storeByUserId) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-		}
-
 		const billboard = await prisma.billboard.create({
 			data: {
 				label,
-				imageUrl,
-				storeId: params.storeId
+				imageUrl
 			}
 		});
 
@@ -54,20 +41,10 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 	}
 }
 
-// GET ALL BILLBOARDS FOR CURRENT STORE
-export async function GET(req: Request, { params }: { params: { storeId: string } }) {
-	console.log('Hello');
-
+// GET ALL BILLBOARDS FOR STORE
+export async function GET() {
 	try {
-		if (!params.storeId) {
-			return NextResponse.json({ error: 'Store not found' }, { status: 400 });
-		}
-
-		const billboards = await prisma.billboard.findMany({
-			where: {
-				storeId: params.storeId
-			}
-		});
+		const billboards = await prisma.billboard.findMany();
 
 		return NextResponse.json(billboards);
 	} catch (error) {
