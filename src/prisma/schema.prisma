@@ -11,76 +11,57 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Store {
-  id        String        @id @default(uuid())
-  name      String
-  userId    String
-  billboards Billboard[] @relation("StoreToBillboard")
-  categories Category[]  @relation("StoreToCategory")
-  products   Product[]   @relation("StoreToProduct")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+
+// PRIMARY KEYS - Field that uniquely identifies each record
+// FOREIGN KEYS - Establish relationship between two tables
 
 model Billboard {
-  id        String @id @default(uuid())
-  storeId   String
-  store     Store @relation("StoreToBillboard", fields: [storeId], references: [id])
+  id        String @id @default(uuid()) // Primary Key
   label     String
   imageUrl  String
   categories Category[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([storeId]) // manually create Index 
 }
 
 model Category {
-  id        String @id @default(uuid())
-  storeId   String
-  store     Store @relation("StoreToCategory", fields: [storeId], references: [id])
-  billboardId String
-  billboard Billboard @relation(fields: [billboardId], references: [id])
+  id        String @id @default(uuid()) // Primary Key
+  billboardId String // FOREIGN KEY
+  billboard Billboard @relation(fields: [billboardId], references: [id]) // FOREIGN KEY (BILLBOARDID) REFERENCES PRIMARY KEY (ID) OF BILLBOARD
   products  Product[] @relation("CategoryToProduct")
   name String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([storeId]) // manually create Index
   @@index([billboardId]) // manually create Index
-
 }
 
 model Product {
-  id        String @id @default(uuid())
-  storeId   String
-  store      Store @relation("StoreToProduct", fields: [storeId], references: [id])
-  categoryId String
-  category    Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  id        String @id @default(uuid()) // Primary Key
+  categoryId String // FOREIGN KEY
+  category    Category @relation("CategoryToProduct", fields: [categoryId], references: [id])  // FOREIGN KEY (CATEGORYID) REFERENCES PRIMARY KEY (ID) OF PRODUCT
   name      String
   price     Decimal
   size      String  // filters
+  description String
   // team      String // filters 
   featured  Boolean @default(false)
   archived  Boolean @default(false)
-  // Need more than one image per product sometimes
-  images     Image[]
-  orderId   String @default("") // Foreign Key to Order 
-  order      Order @relation(fields: [orderId], references: [id])
+  images     Image[]   // Need more than one image per product sometimes
+  orderId   String @default("") // FOREIGN KEY
+  order      Order @relation(fields: [orderId], references: [id]) // FOREIGN KEY (ORDERID) REFERENCES PRIMARY KEY (ID) OF ORDER
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([storeId])
   @@index([categoryId])
   @@index([orderId])
-
 }
 
 model Image {
-  id        String @id @default(uuid())
+  id        String @id @default(uuid()) // Primary Key
   url       String
+  productId String // FOREIGN KEY
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade) // Deleting the product also deletes all related image Records
-  productId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -88,7 +69,7 @@ model Image {
 }
 
 model Order {
-  id         String @id @default(uuid())
+  id         String @id @default(uuid()) // Primary Key
   orderItems Product[]
   isPaid     Boolean @default(false)
   name       String @default("")
@@ -98,15 +79,3 @@ model Order {
   createdAt  DateTime @default(now())
   updatedAt  DateTime  @updatedAt
 }
-
-// model OrderItem {
-//   id  String @id @default(uuid())
-//   orderId String
-//   order Order @relation(fields: [orderId], references: [id])
-//   productId String
-//   product Product @relation(fields: [productId], references: [id])
-
-//   @@index([orderId])
-//   @@index([productId])
-
-// }
