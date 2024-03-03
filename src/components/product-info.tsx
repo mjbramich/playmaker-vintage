@@ -31,8 +31,10 @@ const ProductInfo = ({ product }: Props) => {
 			</form>
 
 			<div className='mt-6'>
-				<h3 className='sr-only'>Description</h3>
-				<div className='space-y-6 text-base text-muted-foreground'>Description:</div>
+				<h3 className='font-medium'>Description:</h3>
+				<div className='space-y-6 whitespace-pre-line text-base text-muted-foreground'>
+					{product.description}
+				</div>
 			</div>
 		</div>
 	);
