@@ -18,15 +18,12 @@ const OrdersPage = async () => {
 	});
 
 	const formattedOrders = orders.map((order) => ({
-		id: order.id,
-		phone: order.phone,
-		address: order.address,
+		...order,
 		products: order.orderItems.map((item) => item.name),
 		total: currencyFormatter.format(
 			order.orderItems.reduce((total, item) => total + Number(item.price), 0)
 		),
-		paid: order.isPaid,
-		createdAt: format(order.createdAt, 'MMMM do, yyyy')
+		createdAt: format(order.createdAt, 'MMM do, yyyy')
 	}));
 
 	return (

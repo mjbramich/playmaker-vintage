@@ -7,12 +7,12 @@ import { OrderColumn } from '@/types';
 // Define the columns for the billboard table
 export const columns: ColumnDef<OrderColumn>[] = [
 	{
-		accessorKey: 'id',
-		header: 'Order ID'
-	},
-	{
 		accessorKey: 'createdAt',
 		header: 'Date'
+	},
+	{
+		accessorKey: 'name',
+		header: 'Customer'
 	},
 	{
 		accessorKey: 'products',
@@ -35,6 +35,6 @@ export const columns: ColumnDef<OrderColumn>[] = [
 		accessorKey: 'paid',
 		header: 'Paid',
 		// row.original is the original row object provided to the table
-		cell: ({ row }) => (row.original.paid ? 'Yes' : 'No')
+		cell: ({ row }) => (row.original.isPaid ? 'Yes' : 'No')
 	}
 ];
