@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Category, Prisma } from '@prisma/client';
+import { collection, Prisma } from '@prisma/client';
 import toast from 'react-hot-toast';
 
 import { Button } from '@/components/ui/button';
@@ -43,7 +43,7 @@ interface FormattedProduct extends Omit<ProductWithImages, 'price'> {
 
 interface Props {
 	initialData: FormattedProduct | null;
-	categories: Category[];
+	collections: collection[];
 }
 
 const formSchema = z.object({
@@ -51,7 +51,7 @@ const formSchema = z.object({
 	price: z.coerce.number().min(1), // coerce to number ?
 	size: z.string().min(1),
 	description: z.string().min(1),
-	categoryId: z.string().min(1),
+	collectionId: z.string().min(1),
 	images: z.object({ url: z.string() }).array().nonempty(),
 	featured: z.boolean().default(false).optional(),
 	archived: z.boolean().default(false).optional()
@@ -59,7 +59,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const ProductForm = ({ initialData, categories }: Props) => {
+const ProductForm = ({ initialData, collections }: Props) => {
 	const params = useParams();
 	const router = useRouter();
 
@@ -80,7 +80,7 @@ const ProductForm = ({ initialData, categories }: Props) => {
 					size: '',
 					price: 0,
 					description: '',
-					categoryId: '',
+					collectionId: '',
 					images: [],
 					featured: false,
 					archived: false
@@ -210,10 +210,10 @@ const ProductForm = ({ initialData, categories }: Props) => {
 
 					<FormField
 						control={form.control}
-						name='categoryId'
+						name='collectionId'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Categories</FormLabel>
+								<FormLabel>collections</FormLabel>
 								<Select
 									disabled={loading}
 									onValueChange={field.onChange}
@@ -222,13 +222,14 @@ const ProductForm = ({ initialData, categories }: Props) => {
 								>
 									<FormControl>
 										<SelectTrigger>
-											<SelectValue defaultValue={field.value} placeholder='Select a category' />
+											<SelectValue defaultValue={field.value} placeholder='Select a collection' />
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{categories.map((category) => (
-											<SelectItem key={category.id} value={category.id}>
-												{category.name}
+										{/* eslint-disable-next-line */}
+										{collections.map((collection) => (
+											<SelectItem key={collection.id} value={collection.id}>
+												{collection.name}
 											</SelectItem>
 										))}
 									</SelectContent>

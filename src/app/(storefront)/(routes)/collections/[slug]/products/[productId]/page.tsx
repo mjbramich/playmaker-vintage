@@ -18,13 +18,13 @@ export default async function ProductPage({
 		},
 		include: {
 			images: true,
-			category: true
+			collection: true
 		}
 	});
 
 	const relatedProducts = await prisma.product.findMany({
 		where: {
-			categoryId: product?.categoryId,
+			collectionId: product?.collectionId,
 			// don't include current product
 			id: {
 				not: product?.id
@@ -33,7 +33,7 @@ export default async function ProductPage({
 		},
 		include: {
 			images: true,
-			category: true
+			collection: true
 		}
 	});
 
@@ -44,8 +44,8 @@ export default async function ProductPage({
 	const formattedProduct: ProductWithImage = {
 		...product,
 		price: product.price.toString(),
-		categoryId: product.category.id,
-		category: product.category.name,
+		collectionId: product.collection.id,
+		collection: product.collection.name,
 		createdAt: format(new Date(product.createdAt), 'MMMM do, yyyy'),
 		updatedAt: format(new Date(product.updatedAt), 'MMMM do, yyyy')
 	};
@@ -55,8 +55,8 @@ export default async function ProductPage({
 		price: product.price.toString(),
 
 		// price: currencyFormatter.format(Number(item.price)), // Need to convert Decimal to number first then format
-		categoryId: item.categoryId,
-		category: item.category.name,
+		collectionId: item.collectionId,
+		collection: item.collection.name,
 		createdAt: format(item.createdAt, 'MMMM do, yyyy'),
 		updatedAt: format(item.updatedAt, 'MMMM do, yyyy')
 	}));

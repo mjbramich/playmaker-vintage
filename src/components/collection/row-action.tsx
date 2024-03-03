@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react';
 
-import { CategoryColumn } from '@/types';
+import { CollectionColumn } from '@/types';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button';
 import AlertModal from '@/components/modals/AlertModal';
 
 interface Props {
-	data: CategoryColumn;
+	data: CollectionColumn;
 }
 const RowAction = ({ data }: Props) => {
 	const router = useRouter();
@@ -26,13 +26,13 @@ const RowAction = ({ data }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const onCopy = (id: string) => {
 		navigator.clipboard.writeText(id);
-		toast.success('Category ID copied to clipboard.');
+		toast.success('collection ID copied to clipboard.');
 	};
 
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(`/api/store/categories/${data.id}`, {
+			const response = await fetch(`/api/store/collections/${data.id}`, {
 				method: 'DELETE'
 			});
 
@@ -41,7 +41,7 @@ const RowAction = ({ data }: Props) => {
 				throw new Error(error);
 			}
 
-			toast.success('Successfully deleted category');
+			toast.success('Successfully deleted collection');
 			router.refresh();
 		} catch (error) {
 			if (error instanceof Error) {
@@ -56,8 +56,8 @@ const RowAction = ({ data }: Props) => {
 	return (
 		<>
 			<AlertModal
-				title='Delete Category'
-				desc='Are you sure you want to delete this category?'
+				title='Delete collection'
+				desc='Are you sure you want to delete this collection?'
 				isOpen={open}
 				setIsOpen={setIsOpen}
 				onConfirm={handleDelete}
@@ -77,8 +77,8 @@ const RowAction = ({ data }: Props) => {
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem
-						// Route to individual category
-						onClick={() => router.push(`/admin/categories/${data.id}`)}
+						// Route to individual collection
+						onClick={() => router.push(`/admin/collections/${data.id}`)}
 					>
 						<Edit className='mr-2 h-4 w-4' /> Update
 					</DropdownMenuItem>

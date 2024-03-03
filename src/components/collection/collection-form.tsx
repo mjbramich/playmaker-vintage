@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Billboard, Category } from '@prisma/client';
+import { Billboard, collection } from '@prisma/client';
 import toast from 'react-hot-toast';
 
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/select';
 
 interface Props {
-	initialData: Category | null; // billboard may not always exist
+	initialData: collection | null; // billboard may not always exist
 	billboards: Billboard[];
 }
 
@@ -38,7 +38,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const CategoryForm = ({ initialData, billboards }: Props) => {
+const CollectionForm = ({ initialData, billboards }: Props) => {
 	const params = useParams();
 	const router = useRouter();
 
@@ -54,7 +54,7 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 		}
 	});
 
-	const toastMessage = initialData ? 'Category updated.' : 'Category created.';
+	const toastMessage = initialData ? 'collection updated.' : 'collection created.';
 	const action = initialData ? 'Save changes' : 'Create';
 
 	const onSubmit = async (data: FormData) => {
@@ -62,8 +62,8 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 			setLoading(true);
 
 			const url = initialData
-				? `/api/store/categories/${params.categoryId}` // Update a category
-				: `/api/store/categories`; // Create a category
+				? `/api/store/collections/${params.collectionId}` // Update a collection
+				: `/api/store/collections`; // Create a collection
 
 			const method = initialData ? 'PATCH' : 'POST';
 
@@ -80,7 +80,7 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 				throw new Error(error);
 			}
 
-			router.push(`/admin/categories`);
+			router.push(`/admin/collections`);
 			router.refresh();
 			toast.success(toastMessage);
 		} catch (error) {
@@ -104,7 +104,7 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 							<FormItem>
 								<FormLabel>Name</FormLabel>
 								<FormControl>
-									<Input disabled={loading} placeholder='Category Name' {...field} />
+									<Input disabled={loading} placeholder='collection Name' {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -149,4 +149,4 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 	);
 };
 
-export default CategoryForm;
+export default CollectionForm;

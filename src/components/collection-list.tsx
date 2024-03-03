@@ -1,9 +1,9 @@
-import { Category } from '@prisma/client';
+import { collection } from '@prisma/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
-	data: Category[];
+	data: collection[];
 }
 
 const CollectionList = ({ data }: Props) => (
@@ -13,6 +13,7 @@ const CollectionList = ({ data }: Props) => (
 		</div>
 
 		<ul className=' mt-6 grid grid-cols-1 gap-x-6 gap-y-10  px-20 sm:grid-cols-3 sm:px-6 lg:px-0 xl:gap-x-8'>
+			{/* eslint-disable-next-line */}
 			{data.map((collection) => (
 				<div key={collection.name} className='group relative cursor-pointer space-y-4 '>
 					<div className='relative aspect-[4/5] overflow-hidden rounded-xl py-6'>

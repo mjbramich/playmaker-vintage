@@ -16,22 +16,22 @@ const MobileNav = ({ isOpen }: Props) => {
 
 	const productRoutes = [
 		{
-			href: `/categories/all`,
+			href: `/collections/all`,
 			name: 'Shop All',
 			active: pathname.includes('all')
 		},
 		{
-			href: `/categories/t-shirts`,
+			href: `/collections/t-shirts`,
 			name: 'T-shirts',
 			active: pathname.includes('t-shirts')
 		},
 		{
-			href: `/categories/sweaters`,
+			href: `/collections/sweaters`,
 			name: 'Sweaters',
 			active: pathname.includes('sweaters')
 		},
 		{
-			href: `/categories/jackets`,
+			href: `/collections/jackets`,
 			name: 'Jackets',
 			active: pathname.includes('jackets')
 		}

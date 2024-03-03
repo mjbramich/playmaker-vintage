@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs';
 import prisma from '@/lib/prismadb';
 
-// eg: api/store/categories
+// eg: api/store/collections
 
-// CREATE NEW CATEGORY
+// CREATE NEW collection
 export async function POST(req: Request) {
 	try {
 		const { userId } = auth();
@@ -23,28 +23,28 @@ export async function POST(req: Request) {
 			return NextResponse.json({ error: 'Billboard is required' }, { status: 400 });
 		}
 
-		const category = await prisma.category.create({
+		const collection = await prisma.collection.create({
 			data: {
 				name,
 				billboardId
 			}
 		});
 
-		return NextResponse.json(category);
+		return NextResponse.json(collection);
 	} catch (error) {
-		console.log('[CATEGORIES_POST]', error);
+		console.log('[collections_POST]', error);
 		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
 
-// GET ALL CATEGORIES FOR CURRENT STORE
+// GET ALL collections FOR CURRENT STORE
 export async function GET() {
 	try {
-		const categories = await prisma.category.findMany();
+		const collections = await prisma.collection.findMany();
 
-		return NextResponse.json(categories);
+		return NextResponse.json(collections);
 	} catch (error) {
-		console.log('[CATEGORIES_GET]', error);
+		console.log('[collections_GET]', error);
 		return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }

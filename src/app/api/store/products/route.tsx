@@ -4,12 +4,12 @@ import prisma from '@/lib/prismadb';
 
 // eg: api/stores/products
 
-// CREATE NEW CATEGORY
+// CREATE NEW collection
 export async function POST(req: Request) {
 	try {
 		const { userId } = auth();
 		const body = await req.json();
-		const { name, size, price, images, categoryId, description } = body;
+		const { name, size, price, images, collectionId, description } = body;
 		console.log('images:', images);
 		if (!userId) {
 			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
@@ -31,8 +31,8 @@ export async function POST(req: Request) {
 			return NextResponse.json({ error: 'Image is required' }, { status: 400 });
 		}
 
-		if (!categoryId) {
-			return NextResponse.json({ error: 'Category is required' }, { status: 400 });
+		if (!collectionId) {
+			return NextResponse.json({ error: 'collection is required' }, { status: 400 });
 		}
 
 		if (!description) {
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 				name,
 				size,
 				price,
-				categoryId,
+				collectionId,
 				description,
 				images: {
 					createMany: {

@@ -12,12 +12,12 @@ export interface BillboardColumn {
 	createdAt: string;
 }
 
-export interface Category {
+export interface Collection {
 	id: string;
 	name: string;
 	billboard: Billboard;
 }
-export interface CategoryColumn {
+export interface CollectionColumn {
 	id: string;
 	name: string;
 	billboardLabel: string;
@@ -29,8 +29,9 @@ export interface Product {
 	name: string;
 	size: string;
 	price: string;
-	categoryId: string;
-	category: string;
+	description: string;
+	collectionId: string;
+	collection: string;
 	featured: boolean;
 	archived: boolean;
 	createdAt: string;
@@ -46,7 +47,7 @@ export interface ProductColumn {
 	name: string;
 	size: string;
 	price: string;
-	category: string;
+	collection: string;
 	featured: boolean;
 	archived: boolean;
 	createdAt: string;

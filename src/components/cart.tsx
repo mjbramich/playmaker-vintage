@@ -105,7 +105,7 @@ const Cart = () => {
 												<div className='flex justify-between'>
 													<h4 className='text-sm sm:text-base'>
 														<Link
-															href={`/collections/${product.category}/product/${product.id}`}
+															href={`/collections/${product.collection}/product/${product.id}`}
 															className='font-medium capitalize hover:text-muted-foreground'
 														>
 															{product.name}

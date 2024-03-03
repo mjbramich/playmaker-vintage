@@ -2,11 +2,11 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { CategoryColumn } from '@/types';
-import RowAction from '@/components/category/row-action';
+import { CollectionColumn } from '@/types';
+import RowAction from '@/components/collection/row-action';
 
 // Define the columns for the billboard table
-export const columns: ColumnDef<CategoryColumn>[] = [
+export const columns: ColumnDef<CollectionColumn>[] = [
 	{
 		accessorKey: 'name',
 		header: 'Name'

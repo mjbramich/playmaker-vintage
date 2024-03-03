@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Trash } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Category } from '@prisma/client';
+import { collection } from '@prisma/client';
 
 import AlertModal from '@/components/modals/AlertModal';
 import Heading from '@/components/ui/heading';
@@ -12,23 +12,23 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 interface Props {
-	initialData: Category | null;
+	initialData: collection | null;
 }
 
-const CategoryHeading = ({ initialData }: Props) => {
+const CollectionHeading = ({ initialData }: Props) => {
 	const [open, setIsOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	const params = useParams();
 	const router = useRouter();
 
-	const title = initialData ? 'Edit Category' : 'Create Category';
-	const description = initialData ? 'Edit a Category' : 'Add a new Category';
+	const title = initialData ? 'Edit collection' : 'Create collection';
+	const description = initialData ? 'Edit a collection' : 'Add a new collection';
 
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(`/api/store/categories/${params.categoryId}`, {
+			const response = await fetch(`/api/store/collections/${params.collectionId}`, {
 				method: 'DELETE'
 			});
 
@@ -37,9 +37,9 @@ const CategoryHeading = ({ initialData }: Props) => {
 				throw new Error(error);
 			}
 
-			router.push(`/admin/categories`);
+			router.push(`/admin/collections`);
 			router.refresh();
-			toast.success('Successfully deleted category');
+			toast.success('Successfully deleted collection');
 		} catch (error) {
 			if (error instanceof Error) {
 				toast.error(error.message);
@@ -53,8 +53,8 @@ const CategoryHeading = ({ initialData }: Props) => {
 	return (
 		<>
 			<AlertModal
-				title='Delete Category'
-				desc='Are you sure you want to delete this category?'
+				title='Delete collection'
+				desc='Are you sure you want to delete this collection?'
 				isOpen={open}
 				setIsOpen={setIsOpen}
 				onConfirm={handleDelete}
@@ -65,7 +65,7 @@ const CategoryHeading = ({ initialData }: Props) => {
 				{initialData && (
 					<Button disabled={loading} variant='destructive' onClick={() => setIsOpen(true)}>
 						<Trash className='mr-2 h-4 w-4' />
-						Delete Category
+						Delete collection
 					</Button>
 				)}
 			</div>
@@ -74,4 +74,4 @@ const CategoryHeading = ({ initialData }: Props) => {
 	);
 };
 
-export default CategoryHeading;
+export default CollectionHeading;

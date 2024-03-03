@@ -9,7 +9,7 @@ import Products from '@/components/product/products';
 const ProductsPage = async () => {
 	const products = await prisma.product.findMany({
 		include: {
-			category: true
+			collection: true
 		},
 		orderBy: {
 			createdAt: 'desc'
@@ -23,7 +23,7 @@ const ProductsPage = async () => {
 		name: item.name,
 		size: item.size,
 		price: currencyFormatter.format(Number(item.price)), // Need to convert Decimal to number first then format
-		category: item.category.name,
+		collection: item.collection.name,
 		featured: item.featured,
 		archived: item.archived,
 		createdAt: format(item.createdAt, 'MMMM do, yyyy')

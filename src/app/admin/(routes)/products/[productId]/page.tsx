@@ -13,7 +13,7 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
 		}
 	});
 
-	const categories = await prisma.category.findMany();
+	const collections = await prisma.collection.findMany();
 
 	// type ProductWithImages = Prisma.ProductGetPayload<{
 	// 	include: {
@@ -36,7 +36,7 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
 	return (
 		<div className='space-y-8'>
 			<ProductHeading initialData={formattedProduct} />
-			<ProductForm initialData={formattedProduct} categories={categories} />
+			<ProductForm initialData={formattedProduct} collections={collections} />
 		</div>
 	);
 };

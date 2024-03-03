@@ -1,46 +1,51 @@
 'use client';
 
 import Link from 'next/link';
-
-import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 
-const NavLinks = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
+import { cn } from '@/lib/utils';
+import { Collection } from '@/types';
+
+interface Props {
+	data: Collection[];
+}
+
+const NavLinks = ({ data }: Props) => {
 	const pathname = usePathname();
 
-	const productRoutes = [
-		{
-			href: `/categories/all`,
-			name: 'Shop All',
-			active: pathname.includes('all')
-		},
-		{
-			href: `/categories/t-shirts`,
-			name: 'T-shirts',
-			active: pathname.includes('t-shirts')
-		},
-		{
-			href: `/categories/sweaters`,
-			name: 'Sweaters',
-			active: pathname.includes('sweaters')
-		},
-		{
-			href: `/categories/jackets`,
-			name: 'Jackets',
-			active: pathname.includes('jackets')
-		}
-	];
+	// const productRoutes = [
+	// 	{
+	// 		href: `/collections/all`,
+	// 		name: 'Shop All',
+	// 		active: pathname.includes('all')
+	// 	},
+	// 	{
+	// 		href: `/collections/t-shirts`,
+	// 		name: 'T-shirts',
+	// 		active: pathname.includes('t-shirts')
+	// 	},
+	// 	{
+	// 		href: `/collections/sweaters`,
+	// 		name: 'Sweaters',
+	// 		active: pathname.includes('sweaters')
+	// 	},
+	// 	{
+	// 		href: `/collections/jackets`,
+	// 		name: 'Jackets',
+	// 		active: pathname.includes('jackets')
+	// 	}
+	// ];
 
-	// const routes = data.map((route) => ({
-	// 	href: `/category/${route.slug}`,
-	// 	label: route.name,
-	// 	active: pathname.includes(route.slug)
-	// }));
+	const routes = data.map((route) => ({
+		href: `/collection/${route.name}`,
+		name: route.name,
+		active: pathname.includes(route.name)
+	}));
 
 	return (
-		<nav className={cn('flex-2 px-6 hidden lg:flex', className)} {...props}>
+		<nav className={cn('flex-2 px-6 hidden lg:flex')}>
 			<ul className='flex items-center  space-x-4 '>
-				{productRoutes.map((route) => (
+				{routes.map((route) => (
 					<Link
 						key={route.href}
 						href={route.href}

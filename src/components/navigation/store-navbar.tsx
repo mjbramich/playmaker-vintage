@@ -2,6 +2,7 @@
 
 import { Menu, X } from 'lucide-react';
 
+import { Collection } from '@/types';
 import useMobileMenuStore from '@/stores/mobile-menu';
 import Container from '@/components/container';
 import NavLinks from '@/components/navigation/nav-links';
@@ -9,7 +10,11 @@ import NavActions from '@/components/navigation/nav-actions';
 import MobileNav from '@/components/navigation/mobile-nav';
 import { Button } from '@/components/ui/button';
 
-const Navbar = () => {
+interface Props {
+	collections: Collection[];
+}
+
+const Navbar = ({ collections }: Props) => {
 	const { isOpen, toggleMenu } = useMobileMenuStore();
 
 	return (
@@ -17,7 +22,7 @@ const Navbar = () => {
 			<Container>
 				<div className='relative z-20 flex h-16 items-center bg-white px-4 lg:justify-between  '>
 					<p className=' text-xl font-bold  '>Playmaker Vintage</p>
-					<NavLinks />
+					<NavLinks data={collections} />
 
 					<div className='ml-auto flex items-center gap-4 lg:ml-0'>
 						<NavActions />

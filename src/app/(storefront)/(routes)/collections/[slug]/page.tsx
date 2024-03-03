@@ -26,7 +26,7 @@ export default async function CollectionsPage({
 			},
 			include: {
 				images: true,
-				category: true
+				collection: true
 			},
 			orderBy: {
 				[sortField]: sortValue
@@ -36,14 +36,14 @@ export default async function CollectionsPage({
 		// get products only for that specific collection
 		products = await prisma.product.findMany({
 			where: {
-				category: {
+				collection: {
 					name: params.slug
 				},
 				archived: false
 			},
 			include: {
 				images: true,
-				category: true
+				collection: true
 			},
 			orderBy: {
 				[sortField]: sortValue
@@ -56,8 +56,8 @@ export default async function CollectionsPage({
 	// 	name: item.name,
 	// 	size: item.size,
 	// 	price: currencyFormatter.format(Number(item.price)), // Need to convert Decimal to number first then format
-	// 	categoryId: item.categoryId,
-	// 	category: item.category.name,
+	// 	collectionId: item.collectionId,
+	// 	collection: item.collection.name,
 	// 	featured: item.featured,
 	// 	archived: item.archived,
 	// 	createdAt: format(item.createdAt, 'MMMM do, yyyy'),
@@ -68,8 +68,8 @@ export default async function CollectionsPage({
 	const formattedProducts: ProductWithImage[] = products.map((item) => ({
 		...item,
 		price: item.price.toString(),
-		categoryId: item.category.id,
-		category: item.category.name,
+		collectionId: item.collection.id,
+		collection: item.collection.name,
 		createdAt: format(new Date(item.createdAt), 'MMMM do, yyyy'),
 		updatedAt: format(new Date(item.updatedAt), 'MMMM do, yyyy')
 	}));

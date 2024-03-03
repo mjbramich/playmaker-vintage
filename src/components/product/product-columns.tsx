@@ -31,9 +31,9 @@ export const columns: ColumnDef<ProductColumn>[] = [
 		header: 'Size'
 	},
 	{
-		accessorKey: 'category',
-		header: 'Category',
-		cell: ({ row }) => row.original.category
+		accessorKey: 'collection',
+		header: 'collection',
+		cell: ({ row }) => row.original.collection
 	},
 	{
 		accessorKey: 'price',

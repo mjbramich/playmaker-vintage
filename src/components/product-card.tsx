@@ -21,7 +21,7 @@ const ProductCard = ({ productData }: Props) => (
 
 		<div className=' text-center'>
 			<Link
-				href={`/collections/${productData.category}/products/${productData.id}`}
+				href={`/collections/${productData.collection}/products/${productData.id}`}
 				className='absolute inset-0'
 			/>
 			<h3 className='text-lg font-medium text-gray-900'>{productData.name}</h3>

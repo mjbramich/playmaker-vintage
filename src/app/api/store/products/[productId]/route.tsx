@@ -30,7 +30,7 @@ export async function PATCH(req: Request, { params }: { params: { productId: str
 	try {
 		const { userId } = auth();
 		const body = await req.json();
-		const { name, size, price, images, categoryId, description, featured, archived } = body;
+		const { name, size, price, images, collectionId, description, featured, archived } = body;
 
 		if (!userId) {
 			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
@@ -52,8 +52,8 @@ export async function PATCH(req: Request, { params }: { params: { productId: str
 			return NextResponse.json({ error: 'Image is required' }, { status: 400 });
 		}
 
-		if (!categoryId) {
-			return NextResponse.json({ error: 'Category is required' }, { status: 400 });
+		if (!collectionId) {
+			return NextResponse.json({ error: 'collection is required' }, { status: 400 });
 		}
 
 		if (!description) {
@@ -69,7 +69,7 @@ export async function PATCH(req: Request, { params }: { params: { productId: str
 				name,
 				size,
 				price,
-				categoryId,
+				collectionId,
 				description,
 				featured,
 				archived,
@@ -90,7 +90,7 @@ export async function PATCH(req: Request, { params }: { params: { productId: str
 	}
 }
 
-// DELETE CATEGORY
+// DELETE collection
 export async function DELETE(_req: Request, { params }: { params: { productId: string } }) {
 	try {
 		const { userId } = auth();
@@ -103,7 +103,7 @@ export async function DELETE(_req: Request, { params }: { params: { productId: s
 			return NextResponse.json({ error: 'Product not found' }, { status: 400 });
 		}
 
-		// Delete Category
+		// Delete collection
 		const product = await prisma.product.delete({
 			where: {
 				id: params.productId

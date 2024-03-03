@@ -42,7 +42,7 @@ const BillboardHeading = ({ initialData }: Props) => {
 			toast.success('Successfully deleted billboard');
 		} catch (error) {
 			if (error instanceof Error) {
-				toast.error(`Make sure to delete all categories first. ${error.message}`);
+				toast.error(`Make sure to delete all collections first. ${error.message}`);
 			}
 		} finally {
 			setLoading(false);

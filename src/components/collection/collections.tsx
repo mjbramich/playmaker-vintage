@@ -7,14 +7,14 @@ import { Plus } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
-const Categories = () => {
+const Collections = () => {
 	const router = useRouter();
 
 	return (
 		<>
 			<div className='flex items-center justify-between'>
-				<Heading title='Categories' description='Manage your categories' />
-				<Button onClick={() => router.push(`/admin/categories/new`)}>
+				<Heading title='collections' description='Manage your collections' />
+				<Button onClick={() => router.push(`/admin/collections/new`)}>
 					<Plus className='mr-2 h-4 w-4' />
 					Add New
 				</Button>
@@ -24,4 +24,4 @@ const Categories = () => {
 	);
 };
 
-export default Categories;
+export default Collections;

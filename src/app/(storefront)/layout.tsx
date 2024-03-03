@@ -22,8 +22,8 @@ export default async function SetupLayout({ children }: { children: React.ReactN
 
 	// eslint-disable-next-line
 
-	// Grab all Categories to show in Navbar as links
-	const categories = await prisma.category.findMany({
+	// Grab all collections to show in Navbar as links
+	const collections = await prisma.collection.findMany({
 		include: {
 			billboard: true
 		}
@@ -31,7 +31,7 @@ export default async function SetupLayout({ children }: { children: React.ReactN
 
 	return (
 		<>
-			<Navbar categories={categories} />
+			<Navbar collections={collections} />
 			<PageContainer>{children}</PageContainer>
 		</>
 	);

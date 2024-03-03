@@ -20,9 +20,9 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
 			active: pathname.includes('billboards')
 		},
 		{
-			href: `/admin/categories`,
-			name: 'Categories',
-			active: pathname.includes('categories')
+			href: `/admin/collections`,
+			name: 'collections',
+			active: pathname.includes('collections')
 		},
 		{
 			href: `/admin/products`,

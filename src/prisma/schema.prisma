@@ -19,16 +19,16 @@ model Billboard {
   id        String @id @default(uuid()) // Primary Key
   label     String
   imageUrl  String
-  categories Category[]
+  collections collection[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Category {
+model collection {
   id        String @id @default(uuid()) // Primary Key
   billboardId String // FOREIGN KEY
   billboard Billboard @relation(fields: [billboardId], references: [id]) // FOREIGN KEY (BILLBOARDID) REFERENCES PRIMARY KEY (ID) OF BILLBOARD
-  products  Product[] @relation("CategoryToProduct")
+  products  Product[] @relation("collectionToProduct")
   name String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -38,8 +38,8 @@ model Category {
 
 model Product {
   id        String @id @default(uuid()) // Primary Key
-  categoryId String // FOREIGN KEY
-  category    Category @relation("CategoryToProduct", fields: [categoryId], references: [id])  // FOREIGN KEY (CATEGORYID) REFERENCES PRIMARY KEY (ID) OF PRODUCT
+  collectionId String // FOREIGN KEY
+  collection    collection @relation("collectionToProduct", fields: [collectionId], references: [id])  // FOREIGN KEY (collectionID) REFERENCES PRIMARY KEY (ID) OF PRODUCT
   name      String
   price     Decimal
   size      String  // filters
@@ -53,7 +53,7 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([categoryId])
+  @@index([collectionId])
   @@index([orderId])
 }
 

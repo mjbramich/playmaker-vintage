@@ -2,10 +2,10 @@ import { ProductColumn } from '@/types';
 import { columns } from '@/components/product/product-columns';
 import { DataTable } from '@/components/ui/data-table';
 
-// Create Type for populated Category with billboard
-// type ProductWithCategory = Prisma.ProductGetPayload<{
+// Create Type for populated collection with billboard
+// type ProductWithcollection = Prisma.ProductGetPayload<{
 // 	include: {
-// 		category: true;
+// 		collection: true;
 // 	};
 // }>;
 

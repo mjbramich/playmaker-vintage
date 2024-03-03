@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import Billboard from '@/components/billboard';
 import Hero from '@/components/hero';
 import ProductList from '@/components/product-list';
-import CollectionList from '@/components/category-list';
+import CollectionList from '@/components/collection-list';
 
 export default async function Home() {
 	// Choose a certain billboard from backend and display
@@ -23,17 +23,17 @@ export default async function Home() {
 		take: 4, // Limit the results to the first 4 items
 		include: {
 			images: true,
-			category: true
+			collection: true
 		}
 	});
 
-	const categories = await prisma.category.findMany();
+	const collections = await prisma.collection.findMany();
 
 	const formattedProducts: ProductWithImage[] = featuredProducts.map((item) => ({
 		...item,
 		price: item.price.toString(),
-		categoryId: item.categoryId,
-		category: item.category.name,
+		collectionId: item.collectionId,
+		collection: item.collection.name,
 		createdAt: format(item.createdAt, 'MMMM do, yyyy'),
 		updatedAt: format(item.updatedAt, 'MMMM do, yyyy')
 	}));
@@ -47,7 +47,7 @@ export default async function Home() {
 				link={{ text: 'View All Products', href: '/collections/all' }}
 			/>
 			<Billboard data={billboard} />
-			<CollectionList data={categories} />
+			<CollectionList data={collections} />
 		</>
 	);
 }
