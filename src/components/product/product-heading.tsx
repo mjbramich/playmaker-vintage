@@ -39,7 +39,7 @@ const ProductHeading = ({ initialData }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(`/api/stores/${params.storeId}/products/${params.productId}`, {
+			const response = await fetch(`/api/store/products/${params.productId}`, {
 				method: 'DELETE'
 			});
 

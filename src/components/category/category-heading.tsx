@@ -28,12 +28,9 @@ const CategoryHeading = ({ initialData }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(
-				`/api/stores/${params.storeId}/categories/${params.categoryId}`,
-				{
-					method: 'DELETE'
-				}
-			);
+			const response = await fetch(`/api/store/categories/${params.categoryId}`, {
+				method: 'DELETE'
+			});
 
 			if (!response.ok) {
 				const { error } = await response.json();

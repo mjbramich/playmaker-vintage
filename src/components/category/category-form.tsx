@@ -62,8 +62,8 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
 			setLoading(true);
 
 			const url = initialData
-				? `/api/stores/${params.storeId}/categories/${params.categoryId}` // Update a category
-				: `/api/stores/${params.storeId}/categories`; // Create a category
+				? `/api/store/categories/${params.categoryId}` // Update a category
+				: `/api/store/categories`; // Create a category
 
 			const method = initialData ? 'PATCH' : 'POST';
 

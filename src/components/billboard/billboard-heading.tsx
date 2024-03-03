@@ -28,12 +28,9 @@ const BillboardHeading = ({ initialData }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(
-				`/api/stores/${params.storeId}/billboards/${params.billboardId}`,
-				{
-					method: 'DELETE'
-				}
-			);
+			const response = await fetch(`/api/store/billboards/${params.billboardId}`, {
+				method: 'DELETE'
+			});
 
 			if (!response.ok) {
 				const { error } = await response.json();

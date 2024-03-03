@@ -55,8 +55,8 @@ const BillboardForm = ({ initialData }: Props) => {
 			setLoading(true);
 
 			const url = initialData
-				? `/api/stores/${params.storeId}/billboards/${params.billboardId}` // Update Billboard
-				: `/api/stores/${params.storeId}/billboards`; // Create Billboard
+				? `/api/store/billboards/${params.billboardId}` // Update Billboard
+				: `/api/store/billboards`; // Create Billboard
 
 			const method = initialData ? 'PATCH' : 'POST';
 

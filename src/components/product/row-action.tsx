@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react';
 
@@ -22,7 +22,6 @@ interface Props {
 }
 const RowAction = ({ data }: Props) => {
 	const router = useRouter();
-	const params = useParams();
 	const [open, setIsOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const onCopy = (id: string) => {
@@ -33,7 +32,7 @@ const RowAction = ({ data }: Props) => {
 	const handleDelete = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(`/api/stores/${params.storeId}/products/${data.id}`, {
+			const response = await fetch(`/api/store/products/${data.id}`, {
 				method: 'DELETE'
 			});
 
