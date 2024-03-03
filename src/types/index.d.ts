@@ -54,6 +54,7 @@ export interface ProductColumn {
 }
 
 export interface OrderColumn {
+	id: string;
 	name: string;
 	phone: string;
 	address: string;
