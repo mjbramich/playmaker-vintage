@@ -1,41 +1,24 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useClerk, SignedIn, SignedOut } from '@clerk/nextjs';
 
 import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
+import { NavLinks } from '@/types';
 
 interface Props {
 	isOpen: boolean;
+	isAdmin: boolean;
+	adminLinks: NavLinks[];
+	storeLinks: NavLinks[];
 }
 
-const MobileNav = ({ isOpen }: Props) => {
+const MobileNav = ({ isOpen, isAdmin, adminLinks, storeLinks }: Props) => {
 	const pathname = usePathname();
 	const { signOut } = useClerk();
 
-	const productRoutes = [
-		{
-			href: `/collections/all`,
-			name: 'Shop All',
-			active: pathname.includes('all')
-		},
-		{
-			href: `/collections/t-shirts`,
-			name: 'T-shirts',
-			active: pathname.includes('t-shirts')
-		},
-		{
-			href: `/collections/sweaters`,
-			name: 'Sweaters',
-			active: pathname.includes('sweaters')
-		},
-		{
-			href: `/collections/jackets`,
-			name: 'Jackets',
-			active: pathname.includes('jackets')
-		}
-	];
+	const routes = pathname.includes('admin') ? adminLinks : storeLinks;
 
 	return (
 		<div
@@ -45,12 +28,12 @@ const MobileNav = ({ isOpen }: Props) => {
 			)}
 		>
 			<ul className='relative  *:block *:border-b *:px-10 *:py-4  '>
-				{productRoutes.map((route) => (
+				{routes.map((route) => (
 					<Link
 						key={route.href}
 						href={route.href}
 						className={cn(
-							' text-sm font-medium transition-colors hover:text-primary ',
+							' text-sm font-medium transition-colors hover:text-primary capitalize',
 							route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
 						)}
 					>
@@ -69,12 +52,21 @@ const MobileNav = ({ isOpen }: Props) => {
 				</SignedOut>
 				{/* user signed in */}
 				<SignedIn>
-					<Link
-						href='/admin/'
-						className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
-					>
-						Dashboard
-					</Link>
+					{isAdmin ? (
+						<Link
+							href='/'
+							className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
+						>
+							Storefront
+						</Link>
+					) : (
+						<Link
+							href='/admin'
+							className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
+						>
+							Dashboard
+						</Link>
+					)}
 					<Link
 						href='/'
 						onClick={() => signOut()}

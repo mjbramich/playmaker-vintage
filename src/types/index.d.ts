@@ -69,3 +69,9 @@ export interface OrderItem {
 	name: string;
 	collection: string;
 }
+
+export interface NavLinks {
+	href: string;
+	name: string;
+	active: boolean;
+}

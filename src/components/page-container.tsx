@@ -12,7 +12,7 @@ const PageContainer = ({ children }: { children: React.ReactNode }) => {
 		<div
 			className={cn(
 				' duration-700 transition-transform',
-				isOpen ? 'translate-y-[318px]' : 'translate-y-0'
+				isOpen ? 'translate-y-[371px]' : 'translate-y-0'
 			)}
 		>
 			{children}

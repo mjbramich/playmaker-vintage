@@ -1,8 +1,6 @@
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
-import Navbar from '@/components/Navbar';
-
 export default async function DashboardLayout({
 	children
 }: {
@@ -11,14 +9,12 @@ export default async function DashboardLayout({
 }) {
 	const { userId } = auth();
 
+	// Make sure User is authenticated before accessing admin
 	if (!userId) {
 		redirect('/sign-in');
 	}
 
 	return (
-		<div className='flex min-h-screen flex-col'>
-			<Navbar />
-			<div className='flex-1 p-8 pt-6 '>{children}</div>
-		</div>
+		<div className='mx-auto flex min-h-screen max-w-[1920px] flex-col p-8 pt-6'>{children}</div>
 	);
 }
