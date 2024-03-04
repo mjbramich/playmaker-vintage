@@ -9,7 +9,11 @@ import OrdersTable from '@/components/order/order-table';
 const OrdersPage = async () => {
 	const orders = await prisma.order.findMany({
 		include: {
-			orderItems: true
+			orderItems: {
+				include: {
+					collection: true
+				}
+			}
 		},
 
 		orderBy: {
@@ -19,7 +23,11 @@ const OrdersPage = async () => {
 
 	const formattedOrders = orders.map((order) => ({
 		...order,
-		products: order.orderItems.map((item) => item.name),
+		orderItems: order.orderItems.map(({ id, name, collection }) => ({
+			id,
+			name,
+			collection: collection.name
+		})),
 		total: currencyFormatter.format(
 			order.orderItems.reduce((total, item) => total + Number(item.price), 0)
 		),

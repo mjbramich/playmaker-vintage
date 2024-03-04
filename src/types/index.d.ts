@@ -58,8 +58,14 @@ export interface OrderColumn {
 	name: string;
 	phone: string;
 	address: string;
-	products: string[];
+	orderItems: OrderItem[];
 	total: string;
 	isPaid: boolean;
 	createdAt: string;
+}
+
+export interface OrderItem {
+	id: string;
+	name: string;
+	collection: string;
 }

@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
+import { Check } from 'lucide-react';
 
 import { OrderColumn } from '@/types';
 import RowAction from '@/components/order/row-action';
@@ -16,8 +18,25 @@ export const columns: ColumnDef<OrderColumn>[] = [
 		header: 'Customer'
 	},
 	{
-		accessorKey: 'products',
-		header: 'Products'
+		accessorKey: 'orderItems',
+		header: 'Order Items',
+		cell: (
+			{ row } // Provide a list of product links
+		) => (
+			<ul>
+				{row.original.orderItems.map(({ id, name, collection }) => (
+					<li
+						className={`ml-2 inline after:content-[','] first:ml-0 
+					last:after:content-[]`}
+						key={id}
+					>
+						<Link href={`/collections/${collection}/products/${id}`} className='font-medium'>
+							{name}
+						</Link>
+					</li>
+				))}
+			</ul>
+		)
 	},
 	{
 		accessorKey: 'phone',
@@ -36,7 +55,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
 		accessorKey: 'paid',
 		header: 'Paid',
 		// row.original is the original row object provided to the table. eg (Order object)
-		cell: ({ row }) => (row.original.isPaid ? 'Yes' : 'No')
+		cell: ({ row }) => (row.original.isPaid ? <Check /> : null)
 	},
 	{
 		header: 'Actions',
