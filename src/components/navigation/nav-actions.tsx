@@ -18,7 +18,7 @@ const NavActions = ({ isAdmin }: Props) => {
 	const products = useStore(useCartStore, (state) => state.items);
 
 	return (
-		<div className='flex items-center space-x-4 lg:space-x-6'>
+		<div className='flex items-center justify-end space-x-4 lg:w-[210px] lg:space-x-6'>
 			{/* user not signed in */}
 			<div className='hidden gap-4 lg:flex lg:items-center '>
 				<SignedOut>

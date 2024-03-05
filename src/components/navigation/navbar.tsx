@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 
 import { Collection } from '@/types';
@@ -63,7 +64,12 @@ const Navbar = ({ collections }: Props) => {
 		<nav className='relative border-b bg-white '>
 			<Container>
 				<div className='relative z-20 flex h-16 items-center bg-white px-4 lg:justify-between  '>
-					<p className=' text-xl font-bold  '>Playmaker Vintage</p>
+					<Image
+						src='/playmaker-name-small.png'
+						height={120}
+						width={200}
+						alt='Playmaker vintage script'
+					/>
 					<NavLinks isAdmin={isAdmin} adminLinks={adminRoutes} storeLinks={storeRoutes} />
 
 					<div className='ml-auto flex items-center gap-4 lg:ml-0'>
