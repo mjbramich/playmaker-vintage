@@ -1,9 +1,16 @@
-import { collection } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Create Collection type with billboards populated
+type CollectionWithBillboard = Prisma.CollectionGetPayload<{
+	include: {
+		billboard: true;
+	};
+}>;
+
 interface Props {
-	data: collection[];
+	data: CollectionWithBillboard[];
 }
 
 const CollectionList = ({ data }: Props) => (
@@ -18,7 +25,7 @@ const CollectionList = ({ data }: Props) => (
 				<div key={collection.name} className='group relative cursor-pointer space-y-4 '>
 					<div className='relative aspect-[4/5] overflow-hidden rounded-xl py-6'>
 						<Image
-							src='https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg'
+							src={collection.billboard.imageUrl}
 							alt='hi'
 							className='h-full w-full rounded-lg object-cover object-center group-hover:opacity-75 '
 							fill

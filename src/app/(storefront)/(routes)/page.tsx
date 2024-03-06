@@ -27,7 +27,11 @@ export default async function Home() {
 		}
 	});
 
-	const collections = await prisma.collection.findMany();
+	const collections = await prisma.collection.findMany({
+		include: {
+			billboard: true
+		}
+	});
 
 	const formattedProducts: ProductWithImage[] = featuredProducts.map((item) => ({
 		...item,
