@@ -3,6 +3,7 @@
 		"target": "es5",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
+		"baseUrl": ".",
 		"skipLibCheck": true,
 		"strict": true,
 		"noEmit": true,
@@ -26,5 +27,9 @@
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules"],
+	"ts-node": {
+		// Allows Loading modules using paths spec'd above
+		"require": ["tsconfig-paths/register"]
+	}
 }
