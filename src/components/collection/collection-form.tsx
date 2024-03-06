@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Billboard, collection } from '@prisma/client';
+import { Billboard, Collection } from '@prisma/client';
 import toast from 'react-hot-toast';
 
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/select';
 
 interface Props {
-	initialData: collection | null; // billboard may not always exist
+	initialData: Collection | null; // billboard may not always exist
 	billboards: Billboard[];
 }
 

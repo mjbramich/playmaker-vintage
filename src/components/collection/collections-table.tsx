@@ -6,7 +6,7 @@ import { columns } from '@/components/collection/collection-columns';
 import { DataTable } from '../ui/data-table';
 
 // Create Type for populated collection with billboard
-type CollectionWithBillboard = Prisma.collectionGetPayload<{
+type CollectionWithBillboard = Prisma.CollectionGetPayload<{
 	include: {
 		billboard: true;
 	};

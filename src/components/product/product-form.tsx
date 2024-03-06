@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { collection, Prisma } from '@prisma/client';
+import { Collection, Prisma } from '@prisma/client';
 import toast from 'react-hot-toast';
 
 import { Button } from '@/components/ui/button';
@@ -43,7 +43,7 @@ interface FormattedProduct extends Omit<ProductWithImages, 'price'> {
 
 interface Props {
 	initialData: FormattedProduct | null;
-	collections: collection[];
+	collections: Collection[];
 }
 
 const formSchema = z.object({

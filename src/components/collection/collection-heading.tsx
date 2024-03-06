@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Trash } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { collection } from '@prisma/client';
+import { Collection } from '@prisma/client';
 
 import AlertModal from '@/components/modals/AlertModal';
 import Heading from '@/components/ui/heading';
@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 interface Props {
-	initialData: collection | null;
+	initialData: Collection | null;
 }
 
 const CollectionHeading = ({ initialData }: Props) => {
