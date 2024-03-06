@@ -31,6 +31,7 @@ export default async function ProductPage({
 			},
 			archived: false
 		},
+		take: 4, // limit query to first 4 results
 		include: {
 			images: true,
 			collection: true
