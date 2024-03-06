@@ -7,6 +7,7 @@ const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 // eslint-disable-next-line
 const prisma = globalForPrisma.prisma || new PrismaClient();
 
+// store PrismaClient as a global variable in development environments only, as global variables are not reloaded:
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export default prisma;
