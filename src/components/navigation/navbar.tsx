@@ -11,6 +11,7 @@ import NavLinks from '@/components/navigation/nav-links';
 import NavActions from '@/components/navigation/nav-actions';
 import MobileNav from '@/components/navigation/mobile-nav';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface Props {
 	collections?: Collection[];
@@ -64,12 +65,14 @@ const Navbar = ({ collections }: Props) => {
 		<nav className='relative border-b bg-white '>
 			<Container>
 				<div className='relative z-20 flex h-16 items-center bg-white px-4 lg:justify-between  '>
-					<Image
-						src='/playmaker-name-small.png'
-						height={120}
-						width={200}
-						alt='Playmaker vintage script'
-					/>
+					<Link href='/'>
+						<Image
+							src='/playmaker-name-small.png'
+							height={120}
+							width={200}
+							alt='Playmaker vintage script'
+						/>
+					</Link>
 					<NavLinks isAdmin={isAdmin} adminLinks={adminRoutes} storeLinks={storeRoutes} />
 
 					<div className='ml-auto flex items-center gap-4 lg:ml-0'>
