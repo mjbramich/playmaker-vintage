@@ -53,7 +53,7 @@ const Navbar = ({ collections }: Props) => {
 		{ href: '/collections/all', name: 'shop all', active: pathname.includes('all') },
 		...(collections
 			? collections.map((collection) => ({
-					href: `/collection/${collection.name}`,
+					href: `/collections/${collection.name}`,
 					name: collection.name,
 					active: pathname.includes(collection.name)
 				}))
