@@ -67,12 +67,10 @@ export async function PATCH(req: Request, { params }: { params: { collectionId: 
 }
 
 // DELETE collection
-export async function DELETE(
-	_req: Request,
-	{ params }: { params: { storeId: string; collectionId: string } }
-) {
+export async function DELETE(_req: Request, { params }: { params: { collectionId: string } }) {
 	try {
 		const { userId } = auth();
+		console.log(params.collectionId);
 
 		if (!userId) {
 			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
