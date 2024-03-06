@@ -9,9 +9,9 @@ import CollectionList from '@/components/collection-list';
 
 export default async function Home() {
 	// Choose a certain billboard from backend and display
-	const billboard = await prisma.billboard.findUnique({
+	const billboard = await prisma.billboard.findFirst({
 		where: {
-			id: '2aacc948-ea65-4ce2-ba93-30fa638e6ec0'
+			label: 'Playmaker Vintage'
 		}
 	});
 
