@@ -24,7 +24,7 @@ const ProductInfo = ({ product }: Props) => {
 
 			<form className='mt-6'>
 				<div className=''>
-					<Button className='w-full ' size='lg' onClick={() => addItem(product)}>
+					<Button type='button' className='w-full ' size='lg' onClick={() => addItem(product)}>
 						Add to cart
 					</Button>
 				</div>
