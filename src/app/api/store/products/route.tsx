@@ -9,8 +9,8 @@ export async function POST(req: Request) {
 	try {
 		const { userId } = auth();
 		const body = await req.json();
-		const { name, size, price, images, collectionId, description } = body;
-		console.log('images:', images);
+		const { name, size, price, images, collectionId, description, featured, archived } = body;
+
 		if (!userId) {
 			return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
 		}
@@ -39,6 +39,8 @@ export async function POST(req: Request) {
 			return NextResponse.json({ error: 'Description is required' }, { status: 400 });
 		}
 
+		// Featured and archived are not required, defaults to false
+
 		const product = await prisma.product.create({
 			data: {
 				name,
@@ -50,7 +52,9 @@ export async function POST(req: Request) {
 					createMany: {
 						data: images
 					}
-				}
+				},
+				featured,
+				archived
 			}
 		});
 
