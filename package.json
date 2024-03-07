@@ -10,7 +10,8 @@
 		"lint-staged": "lint-staged",
 		"format": "prettier --write .",
 		"prepare": "husky install",
-		"check-types": "tsc --noEmit --pretty"
+		"check-types": "tsc --noEmit --pretty",
+		"postinstall": "prisma generate"
 	},
 	"prisma": {
 		"schema": "./src/prisma/schema.prisma",
