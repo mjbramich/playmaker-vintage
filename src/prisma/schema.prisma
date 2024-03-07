@@ -49,7 +49,7 @@ model Product {
   archived  Boolean @default(false)
   images     Image[]   // Need more than one image per product sometimes
   orderId   String @default("") // FOREIGN KEY
-  order      Order @relation(fields: [orderId], references: [id]) // FOREIGN KEY (ORDERID) REFERENCES PRIMARY KEY (ID) OF ORDER
+  order      Order @relation(fields: [orderId], references: [id], onDelete: Cascade) // Deleting the order also deletes all related products
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
