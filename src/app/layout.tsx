@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
-import ModalProvider from '@/providers/modalProviders';
 import ToastProvider from '@/providers/toastProvider';
 import '@css/globals.css';
 import { cn } from '@lib/utils';
@@ -31,7 +30,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		<ClerkProvider>
 			<html lang='en'>
 				<body className={cn('bg-background font-sans antialiased', fontSans.variable)}>
-					<ModalProvider />
 					<ToastProvider />
 					<Navbar collections={collections} />
 					<PageContainer>{children}</PageContainer>
