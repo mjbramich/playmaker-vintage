@@ -5,7 +5,7 @@ import { Trash } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-import AlertModal from '@/components/modals/AlertModal';
+import AlertModal from '@/components/modals/alert-modal';
 import Heading from '@/components/ui/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';

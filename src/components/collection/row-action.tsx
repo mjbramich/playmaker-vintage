@@ -15,7 +15,7 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import AlertModal from '@/components/modals/AlertModal';
+import AlertModal from '@/components/modals/alert-modal';
 
 interface Props {
 	data: CollectionColumn;

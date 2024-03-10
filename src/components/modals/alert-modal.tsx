@@ -24,7 +24,7 @@ const AlertModal = ({ title, desc, isOpen, setIsOpen, onConfirm, loading }: Prop
 	<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
 		<AlertDialogContent>
 			<AlertDialogHeader>
-				<AlertDialogTitle>{title}?</AlertDialogTitle>
+				<AlertDialogTitle>{title}</AlertDialogTitle>
 				<AlertDialogDescription>{desc}</AlertDialogDescription>
 			</AlertDialogHeader>
 			<AlertDialogFooter>
