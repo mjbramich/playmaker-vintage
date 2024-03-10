@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 
 const useMounted = () => {
-	const [mounted, setMounted] = useState(false);
+	const mounted = useRef(false);
 
-	// runs on inital mount of component
 	useEffect(() => {
-		setMounted(true);
+		mounted.current = true;
 
-		return () => setMounted(false);
+		return () => {
+			mounted.current = false;
+		};
 	}, []);
 
-	return { mounted };
+	return useCallback(() => mounted.current, []);
 };
 
 export default useMounted;
