@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Price = ({ value }: Props) => {
-	const { mounted } = useMounted();
+	const mounted = useMounted();
 
 	// only run on mount, to avoid hydration issues, since data will be different to whats on the server
 	if (!mounted) {
