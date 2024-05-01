@@ -6,14 +6,15 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 
 // PRIMARY KEYS - Field that uniquely identifies each record
 // FOREIGN KEYS - Establish relationship between two tables
+
 
 model Billboard {
   id        String @id @default(uuid()) // Primary Key
@@ -48,8 +49,8 @@ model Product {
   featured  Boolean @default(false)
   archived  Boolean @default(false)
   images     Image[]   // Need more than one image per product sometimes
-  orderId   String @default("") // FOREIGN KEY
-  order      Order @relation(fields: [orderId], references: [id], onDelete: Cascade) // Deleting the order also deletes all related products
+  orderId    String? // FOREIGN KEY, ? = Nullable field 
+  order      Order? @relation(fields: [orderId], references: [id], onDelete: Cascade) // Deleting the order also deletes all related products
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
