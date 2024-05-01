@@ -12,7 +12,8 @@
 		"prepare": "husky install",
 		"check-types": "tsc --noEmit --pretty",
 		"test": "jest",
-		"test:watch": "jest --watch"
+		"test:watch": "jest --watch",
+		"postinstall": "prisma generate"
 	},
 	"prisma": {
 		"schema": "./src/prisma/schema.prisma",
