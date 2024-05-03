@@ -26,7 +26,33 @@ export const validateSortInput = (sortQuery: string | undefined) => {
 		(receivedSortValue === 'asc' || receivedSortValue === 'desc')
 	) {
 		return { sortField: receivedSortField, sortValue: receivedSortValue };
-	} 
-		return { sortField: defaultSortField, sortValue: 'asc' };
-	
+	}
+	return { sortField: defaultSortField, sortValue: 'asc' };
+};
+
+export const getPageNumbers = (
+	totalPages: number,
+	currentPage: number,
+	totalPagesToDisplay: number
+) => {
+	if (totalPages <= totalPagesToDisplay) {
+		return Array.from({ length: totalPages }, (_, i) => i + 1);
+	}
+	const half = Math.floor(totalPagesToDisplay / 2); // 2
+	// To ensure that the current page is always in the middle
+	let start = currentPage - half;
+	let end = currentPage + half;
+	// If the current page is near the start
+	if (start < 1) {
+		start = 1;
+		end = totalPagesToDisplay;
+	}
+	// If the current page is near the end
+	if (end > totalPages) {
+		start = totalPages - totalPagesToDisplay + 1;
+		end = totalPages;
+	}
+	return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+	// TODO ADD ELLIPSIS IN MIDDLE
 };

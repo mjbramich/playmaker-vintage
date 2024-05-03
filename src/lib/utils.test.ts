@@ -1,4 +1,4 @@
-import { validateSortInput } from '@/lib/utils';
+import { validateSortInput, getPageNumbers } from '@/lib/utils';
 
 // Triple A structure
 
@@ -64,6 +64,61 @@ describe('Utilities - validateSortInput', () => {
 
 			expect(validation.sortField).toEqual('price');
 			expect(validation.sortValue).toEqual('desc');
+		});
+	});
+
+	describe('Utilities - getPageNumbers', () => {
+		describe('Generate Pagination Numbers', () => {
+			it('should return all page numbers when total pages is less than or equal to total pages to display', () => {
+				// Arrange
+				const totalPages = 3;
+				const currentPage = 2;
+				const totalPagesToDisplay = 5;
+				// Act
+				const pageNumbers = getPageNumbers(totalPages, currentPage, totalPagesToDisplay);
+				// Assert
+				expect(pageNumbers).toEqual([1, 2, 3]);
+			});
+
+			it('should return page numbers centered around the current page when total pages is greater than total pages to display', () => {
+				const totalPages = 10;
+				const currentPage = 5;
+				const totalPagesToDisplay = 5;
+
+				const pageNumbers = getPageNumbers(totalPages, currentPage, totalPagesToDisplay);
+
+				expect(pageNumbers).toEqual([3, 4, 5, 6, 7]);
+			});
+
+			it('should return page numbers starting from the beginning when current page is at the beginning', () => {
+				const totalPages = 10;
+				const currentPage = 1;
+				const totalPagesToDisplay = 5;
+
+				const pageNumbers = getPageNumbers(totalPages, currentPage, totalPagesToDisplay);
+
+				expect(pageNumbers).toEqual([1, 2, 3, 4, 5]);
+			});
+
+			it('should return page numbers ending at the end when current page is at the end', () => {
+				const totalPages = 10;
+				const currentPage = 10;
+				const totalPagesToDisplay = 5;
+
+				const pageNumbers = getPageNumbers(totalPages, currentPage, totalPagesToDisplay);
+
+				expect(pageNumbers).toEqual([6, 7, 8, 9, 10]);
+			});
+
+			it('should return single page number when total pages is 1', () => {
+				const totalPages = 1;
+				const currentPage = 1;
+				const totalPagesToDisplay = 5;
+
+				const pageNumbers = getPageNumbers(totalPages, currentPage, totalPagesToDisplay);
+
+				expect(pageNumbers).toEqual([1]);
+			});
 		});
 	});
 });
