@@ -4,6 +4,7 @@ import prisma from '@/lib/prismadb';
 import { ProductWithImage } from '@/types';
 import { validateSortInput } from '@/lib/utils';
 import SortableProductList from '@/components/sortable-product-list';
+import PaginationBar from '@/components/pagination';
 
 export default async function CollectionsPage({
 	params,
@@ -16,6 +17,9 @@ export default async function CollectionsPage({
 	const { sortField, sortValue } = validateSortInput(searchParams.sort);
 
 	console.log(sortField, sortValue);
+
+	const page = Number(searchParams.page) || 1; // current page for pagination
+	const pageSize = 8; // items for pagination
 
 	let products = [];
 
@@ -30,7 +34,10 @@ export default async function CollectionsPage({
 			},
 			orderBy: {
 				[sortField]: sortValue
-			}
+			},
+			// Pagination
+			take: pageSize,
+			skip: (page - 1) * pageSize
 		});
 	} else {
 		// get products only for that specific collection
@@ -47,23 +54,29 @@ export default async function CollectionsPage({
 			},
 			orderBy: {
 				[sortField]: sortValue
-			}
+			},
+			// Pagination
+			take: pageSize,
+			skip: (page - 1) * pageSize
 		});
 	}
 
-	// const formattedProducts: ProductWithImage[] = products.map((item) => ({
-	// 	id: item.id,
-	// 	name: item.name,
-	// 	size: item.size,
-	// 	price: currencyFormatter.format(Number(item.price)), // Need to convert Decimal to number first then format
-	// 	collectionId: item.collectionId,
-	// 	collection: item.collection.name,
-	// 	featured: item.featured,
-	// 	archived: item.archived,
-	// 	createdAt: format(item.createdAt, 'MMMM do, yyyy'),
-	// 	updatedAt: format(item.updatedAt, 'MMMM do, yyyy'),
-	// 	images: item.images
-	// }));
+	const allProducts = await prisma.product.count({
+		where: {
+			archived: false
+		}
+	});
+
+	const collectionProducts = await prisma.product.count({
+		where: {
+			collection: {
+				name: params.slug
+			},
+			archived: false
+		}
+	});
+
+	const totalItems = params.slug === 'all' ? allProducts : collectionProducts;
 
 	const formattedProducts: ProductWithImage[] = products.map((item) => ({
 		...item,
@@ -80,6 +93,7 @@ export default async function CollectionsPage({
 				Shop {params.slug}
 			</h1>
 			<SortableProductList data={formattedProducts} />
+			<PaginationBar currentPage={page} pageSize={pageSize} itemCount={totalItems} />
 		</>
 	);
 }
