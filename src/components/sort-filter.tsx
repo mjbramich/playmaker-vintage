@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
 	DropdownMenu,
@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 
 const SortFilter = () => {
 	const router = useRouter();
-	const pathname = usePathname();
+	// const pathname = usePathname();
 	const searchParams = useSearchParams();
 
 	const [position, setPosition] = useState(searchParams.get('sort') || 'name-asc');
@@ -27,7 +27,7 @@ const SortFilter = () => {
 		(name: string, value: string) => {
 			const params = new URLSearchParams(searchParams.toString());
 			params.set(name, value);
-
+			params.set('page', '1'); // If user changes sort, reset page to 1
 			return params.toString();
 		},
 		[searchParams]
@@ -35,7 +35,8 @@ const SortFilter = () => {
 
 	const handleChange = (value: string) => {
 		setPosition(value);
-		router.push(`${pathname  }?${  createQueryString('sort', value)}`);
+		// Don't need pathname because we want to stay on same page and only change query params
+		router.push(`?${createQueryString('sort', value)}`);
 	};
 
 	return (
