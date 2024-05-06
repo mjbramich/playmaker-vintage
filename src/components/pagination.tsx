@@ -21,7 +21,7 @@ const PaginationBar = ({ currentPage, pageSize, itemCount, totalPagesToDisplay =
 	const changePage = (p: number) => {
 		const params = new URLSearchParams(searchParams);
 		params.set('page', p.toString());
-		router.push(`?${params.toString()}`);
+		router.push(`?${params.toString()}`, { scroll: false });
 	};
 
 	const totalPages = Math.ceil(itemCount / pageSize);
