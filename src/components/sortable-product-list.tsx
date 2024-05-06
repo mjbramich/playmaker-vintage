@@ -5,8 +5,6 @@ import { MoveRight } from 'lucide-react';
 import prisma from '@/lib/prismadb';
 import { ProductWithImage } from '@/types';
 import ProductCard from '@/components/product-card';
-import SortFilter from './sort-filter';
-import { Separator } from './ui/separator';
 
 interface Props {
 	link?: {
@@ -19,7 +17,9 @@ interface Props {
 
 const SortableProductList = async ({ link, params, sortParams }: Props) => {
 	let products = [];
+
 	const page = Number(params.page) || 1; // current page for pagination
+
 	const pageSize = 8; // items for pagination
 	const { sortField, sortValue } = sortParams;
 	if (params.slug === 'all') {
@@ -70,13 +70,7 @@ const SortableProductList = async ({ link, params, sortParams }: Props) => {
 	}));
 
 	return (
-		<div className='py-16 sm:py-24 lg:mx-auto lg:max-w-7xl lg:px-6 '>
-			<div className='mb-6 flex items-center justify-between px-4 sm:px-6 lg:px-0'>
-				<SortFilter />
-				<p className='text-sm'>Products: {formattedProducts.length}</p>
-			</div>
-
-			<Separator />
+		<>
 			<ul className=' mt-6 grid grid-cols-2 gap-x-6 gap-y-10 px-4 sm:px-6 md:grid-cols-4 lg:grid-cols-4 lg:px-0 xl:gap-x-8'>
 				{formattedProducts.map((product) => (
 					<ProductCard key={product.id} productData={product} />
@@ -94,7 +88,7 @@ const SortableProductList = async ({ link, params, sortParams }: Props) => {
 					</Link>
 				</div>
 			)}
-		</div>
+		</>
 	);
 };
 
