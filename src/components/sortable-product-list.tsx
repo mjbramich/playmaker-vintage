@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { MoveRight } from 'lucide-react';
 
 import prisma from '@/lib/prismadb';
+import { validateSortInput } from '@/lib/utils';
 import { ProductWithImage } from '@/types';
 import ProductCard from '@/components/product-card';
 
@@ -12,16 +13,17 @@ interface Props {
 		href: string;
 	};
 	params: { [key: string]: string };
-	sortParams: { [key: string]: string };
+	searchParams: { [key: string]: string };
 }
 
-const SortableProductList = async ({ link, params, sortParams }: Props) => {
-	let products = [];
-
-	const page = Number(params.page) || 1; // current page for pagination
-
+const SortableProductList = async ({ link, params, searchParams }: Props) => {
+	const page = Number(searchParams.page) || 1; // current page for pagination
 	const pageSize = 8; // items for pagination
-	const { sortField, sortValue } = sortParams;
+
+	// Need if someone tries to change search params, defaults to sort by name ascending
+	const { sortField, sortValue } = validateSortInput(searchParams.sort);
+
+	let products = [];
 	if (params.slug === 'all') {
 		products = await prisma.product.findMany({
 			where: {

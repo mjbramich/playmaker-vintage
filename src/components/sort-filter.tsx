@@ -19,6 +19,7 @@ const SortFilter = () => {
 	// const pathname = usePathname();
 	const searchParams = useSearchParams();
 
+	// TODO add validation for sort on this component
 	const [position, setPosition] = useState(searchParams.get('sort') || 'name-asc');
 
 	// Get a new searchParams string by merging the current
