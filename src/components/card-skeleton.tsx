@@ -1,11 +1,11 @@
 import { Skeleton } from '@/components/ui/skeleton';
 
 const CardSkeleton = () => (
-	<div className='flex aspect-[4/5] flex-col items-center space-y-4'>
+	<div className='flex aspect-[4/5] flex-col items-center space-y-2 sm:space-y-4'>
 		<Skeleton className='h-full w-full rounded-xl' />
-		<div className='space-y-2 '>
-			<Skeleton className='h-7 w-[250px]' />
-			<Skeleton className='mx-auto h-5 w-[200px]' />
+		<div className=' w-full space-y-1 sm:space-y-2'>
+			<Skeleton className='mx-auto h-6 w-5/6 sm:h-7' />
+			<Skeleton className='mx-auto h-4 w-3/4 sm:h-5' />
 		</div>
 	</div>
 );
