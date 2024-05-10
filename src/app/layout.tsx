@@ -17,7 +17,33 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
 	title: 'Playmaker Vintage | Vintage Sports Clothing',
 	description:
-		'Discover iconic styles straight from the US at Playmaker Vintage. Elevate your game with our latest arrivals of vintage sports clothing.'
+		'Discover iconic styles straight from the US at Playmaker Vintage. Elevate your game with our latest arrivals of vintage sports clothing.',
+	icons: {
+		icon: [
+			{
+				rel: 'icon',
+				type: 'image/png',
+				sizes: '32x32',
+				url: '/favicon/favicon-32x32.png'
+			},
+			{
+				rel: 'icon',
+				type: 'image/png',
+				sizes: '16x16',
+				url: '/favicon/favicon-16x16.png'
+			},
+			{
+				rel: 'icon',
+				url: '/favicon/favicon.ico'
+			}
+		],
+		shortcut: '/favicon/shortcut.png',
+		apple: [{ url: '/favicon/apple-touch-icon.png' }],
+		other: {
+			rel: 'apple-touch-icon-precomposed',
+			url: '/favicon/apple-touch-icon-precomposed.png'
+		}
+	}
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
