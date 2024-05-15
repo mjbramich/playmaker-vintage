@@ -64,8 +64,18 @@ export async function POST(req: Request) {
 			// Copy shipping Id's from stripe dashboard and add here for shipping options
 			shipping_options: [
 				// !!! Change Shipping rates to live mode, when in prod
-				{ shipping_rate: 'shr_1OnCzmGQDkutFIq5NEXJkp4m' },
-				{ shipping_rate: 'shr_1OnDCXGQDkutFIq5IcJVFkWm' }
+				{
+					shipping_rate:
+						process.env.NODE_ENV === 'development'
+							? process.env.STRIPE_TEST_SHIPPING_KEY_REGULAR
+							: process.env.STRIPE__SHIPPING_KEY_REGULAR
+				}, // Regular Shipping
+				{
+					shipping_rate:
+						process.env.NODE_ENV === 'development'
+							? process.env.STRIPE_TEST_SHIPPING_KEY_EXPRESS
+							: process.env.STRIPE_SHIPPING_KEY_EXPRESS
+				} // Express Shipping
 			],
 			phone_number_collection: {
 				enabled: true
