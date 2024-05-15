@@ -7,7 +7,10 @@ import { NextResponse } from 'next/server';
 // stripe listen --forward-to http://localhost:3000/api/webhooks
 
 // Stripe CLI secret
-const webhookSecretCLI = 'whsec_328e426ad393402870a1da222dbd560165d70e348c9d321f6b4a258a588e3a1f';
+const webhookSecret =
+	process.env.NODE_ENV === 'development'
+		? process.env.STRIPE_TEST_SIGNING_SECRET || ''
+		: process.env.STRIPE_SIGNING_SECRET || '';
 
 export async function POST(req: Request) {
 	// access the raw content of request
@@ -23,7 +26,7 @@ export async function POST(req: Request) {
 	let event: Stripe.Event;
 
 	try {
-		event = stripe.webhooks.constructEvent(body, sig, webhookSecretCLI);
+		event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
 	} catch (error: any) {
 		console.log(error);
 		return NextResponse.json({ error: `Webhook Error: ${error.message}` }, { status: 400 });
