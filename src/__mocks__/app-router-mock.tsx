@@ -4,6 +4,9 @@
 
 // React-testing-library only renders the component, doesn't have access to all the NextJs contexts
 
+// Testing server components
+// https://stackoverflow.com/questions/75729282/testing-an-async-server-component-with-jest-in-next-13
+
 import {
 	AppRouterContext,
 	AppRouterInstance
